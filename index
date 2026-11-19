@@ -1,0 +1,2217 @@
+<style>
+  :root {
+    --bg-dark: #0b111e;
+    --bg-panel: #131c2e;
+    --bg-card: #1a263e;
+    --border: #2a3b5c;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --cyan: #00e5ff;
+    --green: #00e676;
+    --amber: #ffb300;
+    --red: #ff1744;
+    --purple: #d500f9;
+    --blue: #2979ff;
+    --steam: #ff5252;
+    --hexane: #00b0ff;
+    --lp: #ffab00;
+    --cw: #00e676;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  .pivision-app {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .pv-header {
+    background: linear-gradient(90deg, #0f172a 0%, #1e293b 100%);
+    border-bottom: 2px solid var(--border);
+    padding: 10px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pv-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pv-logo {
+    background: var(--cyan);
+    color: #000;
+    font-weight: 900;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .pv-title h1 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .pv-title p {
+    font-size: 11px;
+    color: var(--cyan);
+  }
+
+  .pv-status-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .pv-badge {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pv-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  .pv-dot.warn { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .pv-dot.alarm { background: var(--red); box-shadow: 0 0 8px var(--red); animation: blink 0.8s infinite; }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+
+  .pv-clock {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cyan);
+    background: #070b14;
+    padding: 6px 12px;
+    border: 1px solid var(--cyan);
+    border-radius: 4px;
+  }
+
+  .pv-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    background: var(--bg-card);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.18s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  .btn.active, .btn-primary {
+    background: var(--blue);
+    border-color: var(--cyan);
+    color: #fff;
+  }
+
+  .btn-success {
+    background: #008a47;
+    border-color: var(--green);
+    color: #fff;
+  }
+
+  .btn-danger {
+    background: #b71c1c;
+    border-color: var(--red);
+    color: #fff;
+  }
+
+  .btn-amber {
+    background: #c68400;
+    border-color: var(--amber);
+    color: #000;
+  }
+
+  /* NAVIGATION TABS */
+  .pv-tabs {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: 0 18px;
+    gap: 4px;
+    overflow-x: auto;
+  }
+
+  .pv-tab {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .pv-tab:hover { color: #fff; }
+  .pv-tab.active {
+    color: var(--cyan);
+    border-bottom-color: var(--cyan);
+    background: rgba(0, 229, 255, 0.06);
+  }
+
+  /* MAIN WORKSPACE */
+  .pv-workspace {
+    display: grid;
+    grid-template-columns: 330px 1fr 310px;
+    gap: 10px;
+    padding: 10px;
+    flex: 1;
+  }
+
+  @media (max-width: 1300px) {
+    .pv-workspace {
+      grid-template-columns: 300px 1fr;
+    }
+    .right-sidebar {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .pv-workspace {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    background: var(--bg-card);
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cyan);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .panel-body {
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 760px;
+  }
+
+  /* VALVE FINDER & LIST */
+  .search-box {
+    width: 100%;
+    padding: 7px 10px;
+    background: #090e1a;
+    border: 1px solid var(--border);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .valve-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(74px, 1fr));
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .valve-chip {
+    background: #0d1526;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.15s;
+  }
+
+  .valve-chip:hover {
+    border-color: var(--cyan);
+    transform: translateY(-1px);
+  }
+
+  .valve-chip.open {
+    border-left: 3px solid var(--green);
+    color: #e2f1ff;
+  }
+
+  .valve-chip.closed {
+    border-left: 3px solid var(--red);
+    color: var(--text-muted);
+  }
+
+  .valve-chip.selected {
+    outline: 2px solid var(--amber);
+    background: rgba(255, 179, 0, 0.18);
+  }
+
+  /* SOP STEP LIST */
+  .sop-step {
+    background: #0d1627;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .sop-step:hover {
+    border-color: var(--cyan);
+  }
+
+  .sop-step.active {
+    border-color: var(--amber);
+    background: rgba(255, 179, 0, 0.1);
+  }
+
+  .sop-step.done {
+    border-left: 4px solid var(--green);
+    opacity: 0.85;
+  }
+
+  .sop-step-head {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    color: var(--cyan);
+    margin-bottom: 4px;
+  }
+
+  .sop-role {
+    font-size: 10px;
+    background: var(--bg-card);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--amber);
+  }
+
+  .sop-en {
+    color: #cbd5e1;
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+
+  .sop-vi {
+    color: #38bdf8;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+
+  .sop-note {
+    margin-top: 4px;
+    padding: 4px 6px;
+    background: rgba(255, 179, 0, 0.12);
+    border-left: 2px solid var(--amber);
+    color: #fde047;
+    font-size: 10.5px;
+  }
+
+  /* CENTER P&ID MIMIC CANVAS */
+  .pid-container {
+    position: relative;
+    background: radial-gradient(circle at center, #10192b 0%, #070b14 100%);
+    width: 100%;
+    height: 760px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pid-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    background: rgba(19, 28, 46, 0.9);
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pid-legend {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  .legend-line {
+    width: 18px;
+    height: 4px;
+    border-radius: 2px;
+  }
+
+  .svg-wrapper {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+  }
+
+  svg#pidSvg {
+    width: 100%;
+    height: 100%;
+    min-width: 1050px;
+    min-height: 680px;
+    display: block;
+  }
+
+  /* SVG ANIMATIONS & STYLES */
+  .pipe-base {
+    fill: none;
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.45;
+  }
+
+  .pipe-flow {
+    fill: none;
+    stroke-width: 3.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 8 6;
+    animation: flowDash 1s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .pipe-flow.flowing {
+    opacity: 1;
+  }
+
+  @keyframes flowDash {
+    to { stroke-dashoffset: -28; }
+  }
+
+  .equip-box {
+    fill: #162238;
+    stroke: #64748b;
+    stroke-width: 2;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .equip-box:hover {
+    stroke: var(--cyan);
+    filter: drop-shadow(0 0 6px rgba(0,229,255,0.4));
+  }
+
+  .valve-node {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .valve-label-bg {
+    fill: #0b1324;
+    stroke-width: 1.5;
+    rx: 4;
+  }
+
+  .valve-label-text {
+    font-size: 12.5px;
+    font-weight: 900;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+  }
+
+  /* Radar beacon for located valve */
+  .beacon-ring {
+    fill: none;
+    stroke: var(--amber);
+    stroke-width: 3;
+    animation: radarPulse 1.3s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes radarPulse {
+    0% { r: 8; opacity: 1; stroke-width: 4; }
+    100% { r: 38; opacity: 0; stroke-width: 1; }
+  }
+
+  /* DCS FACEPLATES &CONTROLLERS */
+  .dcs-card {
+    background: #0d1526;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+  }
+
+  .dcs-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .dcs-tag {
+    font-weight: 800;
+    color: var(--cyan);
+    font-size: 12.5px;
+  }
+
+  .dcs-mode {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .dcs-mode.auto { background: var(--green); color: #000; }
+  .dcs-mode.man { background: var(--amber); color: #000; }
+  .dcs-mode.cas { background: var(--purple); color: #fff; }
+
+  .dcs-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .dcs-vals {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    background: #060a12;
+    padding: 5px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 11.5px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+
+  .dcs-slider-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+  }
+
+  .dcs-slider-row input[type=range] {
+    flex: 1;
+    accent-color: var(--cyan);
+    cursor: pointer;
+  }
+
+  /* MODAL / TABS CONTENT */
+  .tab-view {
+    display: none;
+    padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px);
+  }
+
+  .tab-view.active {
+    display: block;
+  }
+
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 14px;
+  }
+
+  .info-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+  }
+
+  .info-card h3 {
+    color: var(--cyan);
+    font-size: 15px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+
+  .info-card p, .info-card li {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: #cbd5e1;
+    margin-bottom: 6px;
+  }
+
+  .noted-box {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.08), rgba(41, 121, 255, 0.12));
+    border: 1px solid var(--cyan);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .fault-card {
+    border-left: 4px solid var(--red);
+  }
+
+  .alarm-banner {
+    background: rgba(255, 23, 68, 0.15);
+    border: 1px solid var(--red);
+    color: #ff8a80;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+</style>
+
+<div class="pivision-app">
+  <!-- TOP HEADER -->
+  <header class="pv-header">
+    <div class="pv-brand">
+      <div class="pv-logo">PI VISION // DCS</div>
+      <div class="pv-title">
+        <h1>LSP HDPE PLANT — SECTION 700: HEXANE RECOVERY LOOP T-703</h1>
+        <p>P&ID: SC0353-ES0D-PID-2000-703 / 704 / 705 / 706 / 710 / 714 | SOP: HD-W-7200-02-001 (Start-up) & HD-W-7200-06-001 (Shutdown)</p>
+      </div>
+    </div>
+
+    <div class="pv-status-bar">
+      <div class="pv-badge">
+        <span class="pv-dot" id="sysDot"></span>
+        <span id="sysStateText">NORMAL OPERATION (T-703 @ 120°C, 3.0 kg/cm²G)</span>
+      </div>
+      <div class="pv-badge">
+        <span>ESD I-705 / I-706:</span>
+        <strong id="esdStatusText" style="color:var(--green);">NORMAL (RESET)</strong>
+      </div>
+      <div class="pv-clock" id="realTimeClock">--/--/---- --:--:--</div>
+    </div>
+
+    <div class="pv-actions">
+      <button class="btn btn-success" onclick="loadNormalRunningState()">⚡ Run Normal State</button>
+      <button class="btn btn-amber" onclick="resetSystemToInitial()">🔄 Reset Từ Đầu (Cold)</button>
+      <button class="btn btn-primary" onclick="exportStandaloneHTML()">💾 Tải Code HTML (GitHub / Vercel)</button>
+    </div>
+  </header>
+
+  <!-- TABS NAVIGATION -->
+  <nav class="pv-tabs">
+    <button class="pv-tab active" onclick="switchMainTab('tab-mimic', this)">🖥️ المراقبة P&ID & Vận Hành Thời Gian Thực</button>
+    <button class="pv-tab" onclick="switchMainTab('tab-notes', this)">📌 Noted Dịch Tiếng Việt & Nguyên Lý Thiết Bị Chính</button>
+    <button class="pv-tab" onclick="switchMainTab('tab-faults', this)">⚠️ Sự Cố (HAZOP/Troubleshooting) & Khắc Phục (2 SOP)</button>
+    <button class="pv-tab" onclick="switchMainTab('tab-deploy', this)">🚀 Hướng Dẫn Đẩy GitHub & Vercel</button>
+  </nav>
+
+  <!-- TAB 1: REAL-TIME PI VISION MIMIC -->
+  <div id="tab-mimic" class="tab-view active" style="padding:0; max-height:none;">
+    <div class="pv-workspace">
+      
+      <!-- LEFT PANEL: SOP GUIDED WORKFLOW & VALVE FINDER -->
+      <div class="panel">
+        <div class="panel-header">
+          <span>📋 QUY TRÌNH SOP & TÌM VỊ TRÍ VAN</span>
+          <div style="display:flex; gap:4px;">
+            <button class="btn active" id="btnSopStart" onclick="switchSopMode('startup')" style="padding:3px 7px; font-size:10px;">Start-up (02-001)</button>
+            <button class="btn" id="btnSopStop" onclick="switchSopMode('shutdown')" style="padding:3px 7px; font-size:10px;">Shutdown (06-001)</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <!-- Valve Finder -->
+          <div style="margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:11px; font-weight:700; color:var(--amber);">🔍 TÌM NHANH VỊ TRÍ VAN (NHẤN ĐỂ PHÁT SÁNG TRÊN P&ID):</span>
+              <button class="btn" style="padding:2px 6px; font-size:10px;" onclick="clearBeacon()">Tắt sáng</button>
+            </div>
+            <input type="text" id="valveSearchInput" class="search-box" placeholder="Nhập số van (VD: V1, V10, V26, FV-712, PIC-721, TV-728...)" oninput="renderValveChips()">
+            <div class="valve-grid" id="valveChipsContainer"></div>
+          </div>
+
+          <!-- SOP Progress & Auto-Execute Step -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-top:1px solid var(--border); padding-top:8px;">
+            <span style="font-size:11px; font-weight:700; color:var(--cyan);" id="sopTitleHeader">SOP START-UP LOOP T-703</span>
+            <div style="display:flex; gap:4px;">
+              <button class="btn btn-success" style="padding:3px 8px; font-size:11px;" onclick="executeCurrentSopStep()">▶ Thực hiện bước này</button>
+            </div>
+          </div>
+          <div id="sopStepsList"></div>
+        </div>
+      </div>
+
+      <!-- CENTER PANEL: INTERACTIVE P&ID CANVAS -->
+      <div class="panel">
+        <div class="pid-container">
+          <div class="pid-toolbar">
+            <div class="pid-legend">
+              <div class="legend-item"><span class="legend-line" style="background:var(--hexane)"></span> Hexane (HX/HHX/ML)</div>
+              <div class="legend-item"><span class="legend-line" style="background:var(--lp)"></span> Slurry / Low Polymer (SX/LP)</div>
+              <div class="legend-item"><span class="legend-line" style="background:var(--steam)"></span> Steam / Condensate (HS/MS/LS)</div>
+              <div class="legend-item"><span class="legend-line" style="background:var(--cw)"></span> Cooling Water / N2 (CW/LN)</div>
+              <div class="legend-item"><span style="color:var(--green); font-weight:900;">●</span> Van MỞ (OPEN)</div>
+              <div class="legend-item"><span style="color:var(--red); font-weight:900;">●</span> Van ĐÓNG (CLOSE)</div>
+            </div>
+            <div style="display:flex; gap:6px; align-items:center;">
+              <span id="selectedNodeBanner" style="color:var(--amber); font-weight:700;">Nhấn vào bất kỳ Van / Bơm / Thiết bị nào để thao tác</span>
+            </div>
+          </div>
+
+          <div class="svg-wrapper">
+            <svg id="pidSvg" viewBox="0 0 1200 720" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <filter id="glowCyan" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <marker id="arrowHx" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#00b0ff" />
+                </marker>
+                <marker id="arrowLp" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#ffab00" />
+                </marker>
+                <marker id="arrowStm" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#ff5252" />
+                </marker>
+              </defs>
+
+              <!-- BACKGROUND GRID -->
+              <g stroke="#162035" stroke-width="1">
+                <line x1="0" y1="120" x2="1200" y2="120" />
+                <line x1="0" y1="240" x2="1200" y2="240" />
+                <line x1="0" y1="360" x2="1200" y2="360" />
+                <line x1="0" y1="480" x2="1200" y2="480" />
+                <line x1="0" y1="600" x2="1200" y2="600" />
+                <line x1="240" y1="0" x2="240" y2="720" />
+                <line x1="480" y1="0" x2="480" y2="720" />
+                <line x1="720" y1="0" x2="720" y2="720" />
+                <line x1="960" y1="0" x2="960" y2="720" />
+              </g>
+
+              <!-- ==================== PROCESS PIPING LINES ==================== -->
+              <!-- 1. TK-703 -> P-703 -> FV-713 -> D-701 / D-702 -->
+              <path id="base-tk703-p703" class="pipe-base" stroke="#00b0ff" d="M 85 155 L 85 215 L 145 215" />
+              <path id="flow-tk703-p703" class="pipe-flow" stroke="#00b0ff" d="M 85 155 L 85 215 L 145 215" />
+
+              <!-- P-703 discharge to FV-713 & D-701 / D-702 -->
+              <path id="base-p703-d701" class="pipe-base" stroke="#00b0ff" d="M 175 215 L 250 215 L 250 310 L 185 310" />
+              <path id="flow-p703-d701" class="pipe-flow" stroke="#00b0ff" marker-end="url(#arrowHx)" d="M 175 215 L 250 215 L 250 310 L 185 310" />
+
+              <!-- P-703 min flow V3/V10 back to TK-703 -->
+              <path id="base-p703-min" class="pipe-base" stroke="#00b0ff" d="M 205 215 L 205 120 L 115 120" />
+              <path id="flow-p703-min" class="pipe-flow" stroke="#00b0ff" d="M 205 215 L 205 120 L 115 120" />
+
+              <!-- P-703 branch to D-702 (V5) -->
+              <path id="base-p703-d702" class="pipe-base" stroke="#00b0ff" d="M 250 215 L 250 45 L 785 45 L 785 100" />
+              <path id="flow-p703-d702" class="pipe-flow" stroke="#00b0ff" d="M 250 215 L 250 45 L 785 45 L 785 100" />
+
+              <!-- 2. TK-702 / HHX Header (P-708A/B) -> V6/V7/V26 -> P-702A/B suction & Seals -->
+              <path id="base-hhx-p702" class="pipe-base" stroke="#00b0ff" d="M 75 520 L 155 520 L 155 460" />
+              <path id="flow-hhx-p702" class="pipe-flow" stroke="#00b0ff" d="M 75 520 L 155 520 L 155 460" />
+
+              <!-- 3. D-701 Bottom (V8/V14) -> P-702A/B -> FV-712 (or V10 Bypass) -> T-703 -->
+              <path id="base-d701-p702" class="pipe-base" stroke="#00b0ff" d="M 140 390 L 140 460 L 185 460" />
+              <path id="flow-d701-p702" class="pipe-flow" stroke="#00b0ff" d="M 140 390 L 140 460 L 185 460" />
+
+              <!-- P-702A/B Min flow V9/V17 back to D-701 -->
+              <path id="base-p702-min" class="pipe-base" stroke="#00b0ff" d="M 235 460 L 235 365 L 185 365" />
+              <path id="flow-p702-min" class="pipe-flow" stroke="#00b0ff" d="M 235 460 L 235 365 L 185 365" />
+
+              <!-- P-702A/B Discharge -> FV-712 -> T-703 Feed -->
+              <path id="base-p702-t703" class="pipe-base" stroke="#00b0ff" d="M 215 460 L 385 460 L 385 280 L 455 280" />
+              <path id="flow-p702-t703" class="pipe-flow" stroke="#00b0ff" marker-end="url(#arrowHx)" d="M 215 460 L 385 460 L 385 280 L 455 280" />
+
+              <!-- V10 Bypass around FV-712 -->
+              <path id="base-v10-bypass" class="pipe-base" stroke="#00b0ff" d="M 290 460 L 290 410 L 365 410 L 365 460" />
+              <path id="flow-v10-bypass" class="pipe-flow" stroke="#00b0ff" d="M 290 460 L 290 410 L 365 410 L 365 460" />
+
+              <!-- 4. T-703 Top Reflux FV-736 (from P-708A/B HHX) -->
+              <path id="base-reflux-t703" class="pipe-base" stroke="#00b0ff" d="M 355 155 L 455 155" />
+              <path id="flow-reflux-t703" class="pipe-flow" stroke="#00b0ff" marker-end="url(#arrowHx)" d="M 355 155 L 455 155" />
+
+              <!-- 5. T-703 Overhead Vapor -> PIC-721 (PV-721) -> E-704 Condenser -> D-702 -> P-706A/B -->
+              <path id="base-t703-ovhd" class="pipe-base" stroke="#00e5ff" d="M 495 120 L 495 75 L 680 75 L 680 125 L 755 125" />
+              <path id="flow-t703-ovhd" class="pipe-flow" stroke="#00e5ff" marker-end="url(#arrowHx)" d="M 495 120 L 495 75 L 680 75 L 680 125 L 755 125" />
+
+              <!-- D-702 Overhead PIC-731 & Bottom P-706A/B -->
+              <path id="base-d702-bot" class="pipe-base" stroke="#00b0ff" d="M 795 170 L 795 215 L 875 215" />
+              <path id="flow-d702-bot" class="pipe-flow" stroke="#00b0ff" marker-end="url(#arrowHx)" d="M 795 170 L 795 215 L 875 215" />
+
+              <!-- 6. T-703 Forced Circulation Loop: Bottom -> P-705A/B -> E-703A/B Reboiler -> T-703 -->
+              <path id="base-t703-p705" class="pipe-base" stroke="#ffab00" d="M 480 420 L 480 545 L 555 545" />
+              <path id="flow-t703-p705" class="pipe-flow" stroke="#ffab00" d="M 480 420 L 480 545 L 555 545" />
+
+              <path id="base-p705-e703" class="pipe-base" stroke="#ffab00" d="M 585 545 L 635 545 L 635 375 L 535 375" />
+              <path id="flow-p705-e703" class="pipe-flow" stroke="#ffab00" marker-end="url(#arrowLp)" d="M 585 545 L 635 545 L 635 375 L 535 375" />
+
+              <!-- MS Steam to E-703A/B (FIC-721 / FV-721) -> D-784A/B -> LV-725A/B -->
+              <path id="base-stm-e703" class="pipe-base" stroke="#ff5252" d="M 730 330 L 655 330 M 635 425 L 635 465 L 725 465" />
+              <path id="flow-stm-e703" class="pipe-flow" stroke="#ff5252" d="M 730 330 L 655 330 M 635 425 L 635 465 L 725 465" />
+
+              <!-- 7. T-703 Bottom LP Transfer: T-703 -> P-711A/B -> PV-723 -> E-711 -> FIC-722 (FV-722) -> D-711 -->
+              <path id="base-t703-p711" class="pipe-base" stroke="#ffab00" d="M 510 420 L 510 615 L 710 615" />
+              <path id="flow-t703-p711" class="pipe-flow" stroke="#ffab00" d="M 510 420 L 510 615 L 710 615" />
+
+              <path id="base-p711-d711" class="pipe-base" stroke="#ffab00" d="M 740 615 L 855 615 L 855 360 L 985 360" />
+              <path id="flow-p711-d711" class="pipe-flow" stroke="#ffab00" marker-end="url(#arrowLp)" d="M 740 615 L 855 615 L 855 360 L 985 360" />
+
+              <!-- HS Steam to E-711 (TIC-724 / TV-724) -> D-715 -> LV-727 -->
+              <path id="base-stm-e711" class="pipe-base" stroke="#ff5252" d="M 790 515 L 840 515 M 870 545 L 935 545" />
+              <path id="flow-stm-e711" class="pipe-flow" stroke="#ff5252" d="M 790 515 L 840 515 M 870 545 L 935 545" />
+
+              <!-- 8. D-711 Overhead Vapor -> E-712 (TV-728) & T-703 Vapor Return -->
+              <path id="base-d711-ovhd" class="pipe-base" stroke="#00e5ff" d="M 1030 290 L 1030 220 L 535 220" />
+              <path id="flow-d711-ovhd" class="pipe-flow" stroke="#00e5ff" marker-end="url(#arrowHx)" d="M 1030 290 L 1030 220 L 535 220" />
+
+              <!-- D-711 Bottom -> P-712 -> E-712 -> D-712 (LIC-722) -->
+              <path id="base-d711-p712" class="pipe-base" stroke="#ffab00" d="M 1030 430 L 1030 515 L 1140 515" />
+              <path id="flow-d711-p712" class="pipe-flow" stroke="#ffab00" marker-end="url(#arrowLp)" d="M 1030 430 L 1030 515 L 1140 515" />
+
+              <!-- 9. Drain & Dump Out Lines (V11/V25 & V26/V27 -> V28/V29/V30 -> D-752 -> P-752) -->
+              <path id="base-drain-d752" class="pipe-base" stroke="#00e676" stroke-dasharray="4 3" d="M 530 545 L 530 675 L 990 675 M 685 615 L 685 675" />
+              <path id="flow-drain-d752" class="pipe-flow" stroke="#00e676" marker-end="url(#arrowHx)" d="M 530 545 L 530 675 L 990 675" />
+
+              <!-- ==================== MAJOR EQUIPMENT NODES ==================== -->
+              <!-- TK-703 -->
+              <g onclick="inspectEquipment('TK-703')">
+                <rect x="45" y="75" width="75" height="80" rx="4" class="equip-box" />
+                <rect id="lvl-TK703" x="47" y="105" width="71" height="48" fill="rgba(0,176,255,0.35)" />
+                <text x="82" y="95" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">TK-703</text>
+                <text x="82" y="112" fill="#94a3b8" font-size="9" text-anchor="middle">Fresh/Rec HX</text>
+                <text id="txt-LI714B" x="82" y="142" fill="#00e5ff" font-size="11" font-weight="700" text-anchor="middle">LI-714B: 65%</text>
+              </g>
+
+              <!-- TK-702 / P-708A/B HHX Header -->
+              <g onclick="inspectEquipment('P-708A/B')">
+                <rect x="15" y="495" width="65" height="55" rx="4" class="equip-box" />
+                <text x="47" y="515" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">TK-702 /</text>
+                <text x="47" y="530" fill="#00e5ff" font-size="10" font-weight="700" text-anchor="middle">P-708A/B</text>
+                <text x="47" y="544" fill="#00e676" font-size="9" text-anchor="middle">HHX Seal</text>
+              </g>
+
+              <!-- D-701 Centrifugal Decanter Surge Drum -->
+              <g onclick="inspectEquipment('D-701')">
+                <rect x="95" y="290" width="90" height="100" rx="14" class="equip-box" />
+                <rect id="lvl-D701" x="97" y="340" width="86" height="48" rx="10" fill="rgba(0,176,255,0.38)" />
+                <text x="140" y="312" fill="#fff" font-size="13" font-weight="800" text-anchor="middle">D-701</text>
+                <text x="140" y="327" fill="#94a3b8" font-size="9.5" text-anchor="middle">ML Surge Drum</text>
+                <text id="txt-LI711" x="140" y="358" fill="#00e5ff" font-size="11" font-weight="700" text-anchor="middle">LI-711: 50%</text>
+                <text id="txt-TI712" x="140" y="376" fill="#ffab00" font-size="10.5" font-weight="700" text-anchor="middle">TI-712: 60°C</text>
+              </g>
+
+              <!-- T-703 HEXANE STRIPPER COLUMN -->
+              <g onclick="inspectEquipment('T-703')">
+                <rect x="455" y="120" width="80" height="300" rx="22" class="equip-box" stroke="#00e5ff" stroke-width="2.5" />
+                <!-- Trays inside T-703 -->
+                <line x1="460" y1="180" x2="530" y2="180" stroke="#334155" stroke-dasharray="4 2" />
+                <line x1="460" y1="230" x2="530" y2="230" stroke="#334155" stroke-dasharray="4 2" />
+                <line x1="460" y1="280" x2="530" y2="280" stroke="#334155" stroke-dasharray="4 2" />
+                <line x1="460" y1="330" x2="530" y2="330" stroke="#334155" stroke-dasharray="4 2" />
+                <rect id="lvl-T703" x="458" y="355" width="74" height="62" rx="12" fill="rgba(255,171,0,0.42)" />
+                <text x="495" y="155" fill="#fff" font-size="15" font-weight="900" text-anchor="middle">T-703</text>
+                <text x="495" y="172" fill="#00e5ff" font-size="9.5" text-anchor="middle">Hexane Stripper</text>
+                <text id="txt-PIC721" x="495" y="208" fill="#00e676" font-size="11" font-weight="800" text-anchor="middle">3.00 kg/cm²G</text>
+                <text id="txt-TI723" x="495" y="258" fill="#ff5252" font-size="11.5" font-weight="800" text-anchor="middle">Bot: 120.0°C</text>
+                <text id="txt-LPwt" x="495" y="312" fill="#ffab00" font-size="10.5" font-weight="800" text-anchor="middle">LP: 7.5 wt%</text>
+                <text id="txt-LIC721" x="495" y="392" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">LIC-721: 52%</text>
+              </g>
+
+              <!-- E-704 HEXANE OVERHEAD CONDENSER -->
+              <g onclick="inspectEquipment('E-704')">
+                <circle cx="680" cy="100" r="24" class="equip-box" />
+                <path d="M 664 100 L 674 90 L 686 110 L 696 100" stroke="#00e676" stroke-width="2" fill="none" />
+                <text x="680" y="65" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">E-704</text>
+              </g>
+
+              <!-- D-702 OVERHEAD RECEIVER DRUM -->
+              <g onclick="inspectEquipment('D-702')">
+                <rect x="755" y="100" width="85" height="70" rx="12" class="equip-box" />
+                <rect id="lvl-D702" x="757" y="138" width="81" height="30" rx="8" fill="rgba(0,176,255,0.38)" />
+                <text x="797" y="120" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">D-702</text>
+                <text id="txt-PIC731" x="797" y="136" fill="#00e676" font-size="10" font-weight="700" text-anchor="middle">0.20 kg/cm²G</text>
+                <text id="txt-LIC732" x="797" y="158" fill="#00e5ff" font-size="10" font-weight="700" text-anchor="middle">LIC-732: 50%</text>
+              </g>
+
+              <!-- E-703A/B CRUDE HEXANE REBOILER -->
+              <g onclick="inspectEquipment('E-703A/B')">
+                <rect x="612" y="330" width="46" height="95" rx="8" class="equip-box" stroke="#ff5252" />
+                <text x="635" y="365" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">E-703</text>
+                <text x="635" y="380" fill="#ff5252" font-size="9.5" text-anchor="middle">A/B</text>
+                <text x="635" y="398" fill="#94a3b8" font-size="8.5" text-anchor="middle">Reboiler</text>
+              </g>
+
+              <!-- D-784A/B CONDENSATE POT FOR E-703 -->
+              <g onclick="inspectEquipment('D-784A/B')">
+                <rect x="725" y="445" width="60" height="45" rx="6" class="equip-box" />
+                <text x="755" y="464" fill="#fff" font-size="10.5" font-weight="800" text-anchor="middle">D-784A/B</text>
+                <text id="txt-LIC725" x="755" y="480" fill="#00e5ff" font-size="9.5" text-anchor="middle">LIC-725: 30%</text>
+              </g>
+
+              <!-- E-711 LP HEATER & D-715 CONDENSATE POT -->
+              <g onclick="inspectEquipment('E-711')">
+                <rect x="832" y="495" width="46" height="65" rx="6" class="equip-box" stroke="#ff5252" />
+                <text x="855" y="520" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">E-711</text>
+                <text id="txt-TI724" x="855" y="538" fill="#ff5252" font-size="9.5" font-weight="700" text-anchor="middle">200°C</text>
+              </g>
+
+              <g onclick="inspectEquipment('D-715')">
+                <rect x="935" y="525" width="55" height="42" rx="6" class="equip-box" />
+                <text x="962" y="542" fill="#fff" font-size="10" font-weight="800" text-anchor="middle">D-715</text>
+                <text id="txt-LIC727" x="962" y="557" fill="#00e5ff" font-size="9" text-anchor="middle">LIC-727:30%</text>
+              </g>
+
+              <!-- D-711 1ST FLASH DRUM -->
+              <g onclick="inspectEquipment('D-711')">
+                <rect x="985" y="290" width="90" height="140" rx="16" class="equip-box" stroke="#ffab00" />
+                <rect id="lvl-D711" x="988" y="380" width="84" height="47" rx="10" fill="rgba(255,171,0,0.4)" />
+                <text x="1030" y="315" fill="#fff" font-size="14" font-weight="900" text-anchor="middle">D-711</text>
+                <text x="1030" y="330" fill="#ffab00" font-size="9.5" text-anchor="middle">1st Flash Drum</text>
+                <text id="txt-TIC727" x="1030" y="355" fill="#ff5252" font-size="10.5" font-weight="700" text-anchor="middle">TIC-727: 160°C</text>
+                <text id="txt-LIC722" x="1030" y="408" fill="#fff" font-size="11" font-weight="700" text-anchor="middle">LIC-722: 35%</text>
+              </g>
+
+              <!-- E-712 & TV-728 -->
+              <g onclick="inspectEquipment('E-712')">
+                <rect x="1115" y="340" width="65" height="55" rx="6" class="equip-box" />
+                <text x="1147" y="362" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">E-712</text>
+                <text x="1147" y="378" fill="#00e5ff" font-size="9.5" text-anchor="middle">TIC-728</text>
+              </g>
+
+              <!-- D-752 CLOSED DRAIN DRUM -->
+              <g onclick="inspectEquipment('D-752')">
+                <rect x="990" y="640" width="95" height="60" rx="10" class="equip-box" stroke="#00e676" />
+                <rect id="lvl-D752" x="992" y="675" width="91" height="23" rx="6" fill="rgba(0,230,118,0.3)" />
+                <text x="1037" y="660" fill="#fff" font-size="12" font-weight="800" text-anchor="middle">D-752</text>
+                <text id="txt-D752" x="1037" y="677" fill="#00e676" font-size="9.5" text-anchor="middle">PG-7502: 0.15 bar</text>
+              </g>
+
+              <!-- ==================== PUMPS ON P&ID ==================== -->
+              <!-- P-703 -->
+              <g id="pump-P703" class="valve-node" onclick="togglePump('P-703')">
+                <circle cx="160" cy="215" r="16" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-703" />
+                <polygon points="155,208 168,215 155,222" fill="#00e676" id="ptri-P-703" />
+                <text x="160" y="243" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">P-703</text>
+              </g>
+
+              <!-- P-702A/B -->
+              <g id="pump-P702AB" class="valve-node" onclick="togglePump('P-702A/B')">
+                <circle cx="200" cy="460" r="16" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-702A/B" />
+                <polygon points="195,453 208,460 195,467" fill="#00e676" id="ptri-P-702A/B" />
+                <text x="200" y="488" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">P-702A/B</text>
+              </g>
+
+              <!-- P-705A/B Stripper Bottom Forced Circulation Pump -->
+              <g id="pump-P705AB" class="valve-node" onclick="togglePump('P-705A/B')">
+                <circle cx="570" cy="545" r="16" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-705A/B" />
+                <polygon points="565,538 578,545 565,552" fill="#00e676" id="ptri-P-705A/B" />
+                <text x="570" y="574" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">P-705A/B</text>
+              </g>
+
+              <!-- P-711A/B Stripper Bottom LP Transfer Pump -->
+              <g id="pump-P711AB" class="valve-node" onclick="togglePump('P-711A/B')">
+                <circle cx="725" cy="615" r="16" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-711A/B" />
+                <polygon points="720,608 733,615 720,622" fill="#00e676" id="ptri-P-711A/B" />
+                <text x="725" y="644" fill="#fff" font-size="11.5" font-weight="800" text-anchor="middle">P-711A/B</text>
+              </g>
+
+              <!-- P-706A/B / P-707A/B -->
+              <g id="pump-P706AB" class="valve-node" onclick="togglePump('P-706A/B')">
+                <circle cx="890" cy="215" r="15" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-706A/B" />
+                <polygon points="885,209 897,215 885,221" fill="#00e676" id="ptri-P-706A/B" />
+                <text x="890" y="242" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">P-706A/B</text>
+              </g>
+
+              <!-- P-712 Low Polymer Gear Pump -->
+              <g id="pump-P712" class="valve-node" onclick="togglePump('P-712')">
+                <circle cx="1095" cy="515" r="15" fill="#0f172a" stroke="#00e676" stroke-width="2.5" id="pcirc-P-712" />
+                <polygon points="1090,509 1102,515 1090,521" fill="#00e676" id="ptri-P-712" />
+                <text x="1095" y="542" fill="#fff" font-size="11" font-weight="800" text-anchor="middle">P-712</text>
+              </g>
+
+              <!-- DYNAMIC VALVES LAYER (Rendered cleanly with large bold numbers via JS) -->
+              <g id="valvesSvgLayer"></g>
+
+              <!-- RADAR BEACON LAYER FOR LOCATING VALVES -->
+              <g id="beaconSvgLayer"></g>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: DCS CONTROLLERS, ALARMS & SELECTED DEVICE CONTROL -->
+      <div class="panel right-sidebar">
+        <div class="panel-header">
+          <span>🎛️ DCS CONTROLLERS & FACEPLATES</span>
+          <span style="font-size:10px; color:var(--green);">SCAN: 500ms</span>
+        </div>
+        <div class="panel-body">
+          <!-- Active Alarms Box -->
+          <div id="alarmContainer"></div>
+
+          <!-- Selected Valve / Equipment Quick Inspector -->
+          <div class="dcs-card" id="inspectorBox" style="border-color:var(--amber);">
+            <div class="dcs-top">
+              <span class="dcs-tag" id="inspTag">T-703 STRIPPER</span>
+              <span class="pv-badge" id="inspState" style="padding:2px 6px; font-size:10px;">IN SERVICE</span>
+            </div>
+            <div class="dcs-desc" id="inspDesc">
+              Tháp chưng tách Hexane ở 120°C và 3.0 kg/cm²G. Nhấn vào van bất kỳ để Đóng/Mở hoặc xem vị trí.
+            </div>
+            <div id="inspActions"></div>
+          </div>
+
+          <!-- DCS Controllers List -->
+          <div id="dcsFaceplatesContainer"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 2: NOTED DỊCH TIẾNG VIỆT & EQUIPMENT PRINCIPLES -->
+  <div id="tab-notes" class="tab-view">
+    <div class="noted-box">
+      <h2 style="color:var(--cyan); font-size:17px; margin-bottom:10px;">📌 PHẦN NOTED VẬN HÀNH QUAN TRỌNG (SONG NGỮ ANH - VIỆT THEO YÊU CẦU)</h2>
+      <div class="grid-cards" style="grid-template-columns: 1fr;">
+        <div class="info-card" style="background:rgba(13,21,38,0.85);">
+          <p><strong>1. [EN]:</strong> Hexane reflux to remove high boiling component and LP that may entrain to the top.</p>
+          <p style="color:#38bdf8; font-weight:600;">👉 <strong>[VI]:</strong> Dòng Hexane hồi lưu (Reflux qua van điều khiển <strong>FV-736</strong> ở đỉnh tháp) được cấp vào đỉnh tháp T-703 nhằm rửa và loại bỏ các cấu tử sôi cao (High Boiling Components) cũng như lượng Low Polymer (LP) có thể bị cuốn theo hơi lên đỉnh tháp (ngăn ngừa đóng bám, tắc nghẽn đường ống đỉnh và thiết bị ngưng tụ E-704).</p>
+        </div>
+        <div class="info-card" style="background:rgba(13,21,38,0.85);">
+          <p><strong>2. [EN]:</strong> Medium pressure steam is supplied to the shell side of Crude Hexane Reboiler E-703A/B, and T-703 operates at the condition of a bottom temperature of 120 °C and a total pressure of 3 kg/cm²G.</p>
+          <p style="color:#38bdf8; font-weight:600;">👉 <strong>[VI]:</strong> Hơi nước áp suất trung bình (Medium Pressure Steam - MS) được cấp vào phía vỏ (Shell side) của thiết bị đun sôi lại Hexane thô <strong>E-703A/B</strong> (qua van <strong>FIC-721 / FV-721</strong>), giúp tháp chưng tách <strong>T-703</strong> vận hành ổn định ở điều kiện nhiệt độ đáy <strong>120 °C</strong> và tổng áp suất <strong>3.0 kg/cm²G</strong>.</p>
+        </div>
+        <div class="info-card" style="background:rgba(13,21,38,0.85);">
+          <p><strong>3. [EN]:</strong> Hexane vapor generated in T-703 is depressed to 0.2 kg/cm²G by PIC-721, condensed and cooled in Hexane Overhead Condenser E-704.</p>
+          <p style="color:#38bdf8; font-weight:600;">👉 <strong>[VI]:</strong> Hơi Hexane sinh ra từ đỉnh tháp <strong>T-703</strong> được giảm áp xuống <strong>0.2 kg/cm²G</strong> thông qua bộ điều khiển áp suất <strong>PIC-721 (van PV-721)</strong>, sau đó được ngưng tụ và làm mát hoàn toàn tại thiết bị ngưng tụ đỉnh <strong>Hexane Overhead Condenser E-704</strong> trước khi chảy về bình chứa <strong>D-702</strong>.</p>
+        </div>
+        <div class="info-card" style="background:rgba(13,21,38,0.85);">
+          <p><strong>4. [EN]:</strong> Meanwhile, T-703 is equipped with Stripper Bottom Pump P-705A/B for forced circulation of hexane.</p>
+          <p style="color:#38bdf8; font-weight:600;">👉 <strong>[VI]:</strong> Đồng thời, tháp <strong>T-703</strong> được trang bị cụm bơm đáy <strong>Stripper Bottom Pump P-705A/B</strong> để thực hiện tuần hoàn cưỡng bức (Forced Circulation) dịch Hexane/LP qua phía ống (Tube side) của Reboiler <strong>E-703A/B</strong> quay về lại T-703, giúp tăng hệ số truyền nhiệt và chống đóng cặn đặc (plugging) Low Polymer.</p>
+        </div>
+        <div class="info-card" style="background:rgba(13,21,38,0.85);">
+          <p><strong>5. [EN]:</strong> Low polymer concentration at T-703 bottom is controlled from 5 - 10 wt% by specifying the flow rate of T-703 bottom to 1st Flash Drum D-711 (FIC-722).</p>
+          <p style="color:#38bdf8; font-weight:600;">👉 <strong>[VI]:</strong> Nồng độ Low Polymer (LP) tại đáy tháp <strong>T-703</strong> được kiểm soát chặt chẽ trong khoảng <strong>5 – 10 wt%</strong> bằng cách cài đặt lưu lượng dòng đáy T-703 bơm qua <strong>P-711A/B</strong> và gia nhiệt tại <strong>E-711</strong> sang bình tách áp cấp 1 (<strong>1st Flash Drum D-711</strong>) thông qua bộ điều khiển lưu lượng <strong>FIC-722 (van FV-722)</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="color:var(--amber); font-size:16px; margin-bottom:12px;">⚙️ NGUYÊN LÝ HOẠT ĐỘNG & MỤC ĐÍCH CỦA CÁC THIẾT BỊ CHÍNH TRONG SOP & P&ID</h2>
+    <div class="grid-cards">
+      <div class="info-card">
+        <h3>1. Tháp T-703 (Hexane Stripper Column)</h3>
+        <p><strong>Mục đích:</strong> Tách thu hồi dung môi Hexane sạch ra khỏi dòng Mother Liquor (ML) chứa Low Polymer (LP) và cấu tử sôi cao từ D-701 cấp sang.</p>
+        <p><strong>Nguyên lý:</strong> Vận hành ở 120°C và 3.0 kg/cm²G. Hơi Hexane bay lên đỉnh qua các đĩa luyện được rửa sạch bụi LP nhờ dòng Reflux FV-736. Dịch đáy giàu LP (5-10 wt%) được giữ mức ổn định bởi LIC-721.</p>
+      </div>
+      <div class="info-card">
+        <h3>2. Thiết bị đun sôi lại E-703A/B & Bình ngưng D-784A/B</h3>
+        <p><strong>Mục đích:</strong> Cung cấp nhiệt năng hóa hơi Hexane cho tháp T-703.</p>
+        <p><strong>Nguyên lý:</strong> Hơi MS (Medium Steam) cấp vào Shell side qua van FIC-721 (FV-721). Nước ngưng (Condensate) thu về D-784A/B và xả qua LV-725A/B (duy trì mức 30%). Dịch đáy T-703 đi trong Tube side nhờ bơm tuần hoàn cưỡng bức P-705A/B.</p>
+      </div>
+      <div class="info-card">
+        <h3>3. Thiết bị ngưng tụ đỉnh E-704 & Bình chứa D-702</h3>
+        <p><strong>Mục đích:</strong> Ngưng tụ hơi Hexane từ đỉnh T-703 (sau khi qua van giảm áp PV-721 xuống 0.2 kg/cm²G).</p>
+        <p><strong>Nguyên lý:</strong> E-704 kiểu BJT (TEMA) dùng nước làm mát (CW) để ngưng tụ hơi Hexane về bình D-702. Áp suất D-702 được giữ ở 0.2 kg/cm²G bằng bộ điều khiển Split-Range PIC-731 (PV-731-1/2), mức lỏng kiểm soát bởi LIC-732.</p>
+      </div>
+      <div class="info-card">
+        <h3>4. Bình D-701 (ML Surge Drum) & Bơm P-702A/B, P-703</h3>
+        <p><strong>Mục đích:</strong> Chứa dịch cái (Mother Liquor - ML) hoặc Hexane rửa từ TK-703/TK-702 để cấp ổn định vào T-703.</p>
+        <p><strong>Nguyên lý:</strong> D-701 có cuộn gia nhiệt hơi LS (bẫy hơi T-7001) giữ nhiệt ~60°C (TI-712). Bơm P-702A/B bơm dịch qua FIC-712 (FV-712) vào T-703. Liên khóa ESD I-705 tự động đóng FV-712 khi P-702A/B dừng để chống dội áp ngược từ T-703.</p>
+      </div>
+      <div class="info-card">
+        <h3>5. Bơm cao tốc P-711A/B, Gia nhiệt E-711 & Bình Flash D-711</h3>
+        <p><strong>Mục đích:</strong> Chuyển dịch đáy giàu Low Polymer (5-10 wt%) từ T-703 sang cụm cô đặc LP (1st Flash Drum D-711).</p>
+        <p><strong>Nguyên lý:</strong> P-711A/B (bơm ly tâm cao tốc có hộp số, steam jacket) đẩy dịch qua van áp suất PV-723 đến thiết bị gia nhiệt E-711 (dùng hơi HS qua TIC-724 ở 200°C), rồi qua van FIC-722 (FV-722) vào D-711 (gia nhiệt vỏ 160°C bởi TIC-727) để tách nhanh hơi Hexane quay về T-703.</p>
+      </div>
+      <div class="info-card">
+        <h3>6. Bình thu gom xả kín D-752 (Closed Drain Drum)</h3>
+        <p><strong>Mục đích:</strong> Thu gom toàn bộ lượng Hexane tồn dư từ T-703, P-705A/B, P-711A/B khi dừng máy bảo trì (Dump out).</p>
+        <p><strong>Nguyên lý:</strong> Kết nối ống mềm (có dây chống văng whip check và nối đất tĩnh điện) từ V11 -> V25 và V26 -> V27, qua các van V28, V29, V30 về D-752. Theo dõi áp suất PG-7502 và mức D-752 để đóng van V32a/b kịp thời.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: ALL TROUBLESHOOTING & HAZARDS FROM BOTH SOPs -->
+  <div id="tab-faults" class="tab-view">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+      <div>
+        <h2 style="color:var(--red); font-size:17px;">⚠️ TỔNG HỢP TẤT CẢ SỰ CỐ (HAZOP / DEVIATION) & CÁCH KHẮC PHỤC TRONG CẢ 2 SOP</h2>
+        <p style="font-size:12px; color:var(--text-muted);">Bạn có thể nhấn nút <strong>"Kích hoạt Mô phỏng Sự cố"</strong> trên từng thẻ để kiểm tra phản ứng trên màn hình P&ID và thực hành khắc phục.</p>
+      </div>
+      <button class="btn btn-success" onclick="clearAllFaults()">✅ Xóa Tất Cả Sự Cố & Khôi Phục Bình Thường</button>
+    </div>
+
+    <div class="grid-cards" id="faultCardsContainer"></div>
+  </div>
+
+  <!-- TAB 4: GITHUB & VERCEL DEPLOYMENT GUIDE -->
+  <div id="tab-deploy" class="tab-view">
+    <div class="noted-box">
+      <h2 style="color:var(--cyan); font-size:17px; margin-bottom:8px;">🚀 HƯỚNG DẪN TẢI MÃ CODE ĐỂ GÁN VÀO GITHUB & TRIỂN KHAI VERCEL</h2>
+      <p style="font-size:13px; color:#e2e8f0; margin-bottom:12px;">
+        Ứng dụng mô phỏng PI Vision Loop T-703 này đã được đóng gói hoàn chỉnh (Self-contained Single-File HTML/CSS/JS), tích hợp đồng hồ thời gian thực (Ngày & Giờ), đầy đủ 2 quy trình Start-up & Shutdown, hệ thống tìm van phát sáng Radar và mô phỏng động học.
+      </p>
+      <button class="btn btn-primary" style="font-size:13px; padding:10px 18px;" onclick="exportStandaloneHTML()">📥 Tải Ngay File <code>index.html</code> Chuẩn GitHub & Vercel</button>
+    </div>
+
+    <div class="grid-cards">
+      <div class="info-card">
+        <h3>Bước 1: Đưa lên GitHub</h3>
+        <p>1. Nhấn nút <strong>"Tải Code HTML (GitHub / Vercel)"</strong> ở góc trên phải hoặc nút bên trên để tải file <code>index.html</code> về máy.</p>
+        <p>2. Tạo một Repository mới trên GitHub (ví dụ: <code>lsp-t703-pivision-sim</code>).</p>
+        <p>3. Upload file <code>index.html</code> vừa tải vào nhánh <code>main</code> và nhấn <strong>Commit changes</strong>.</p>
+      </div>
+      <div class="info-card">
+        <h3>Bước 2: Triển khai tự động trên Vercel</h3>
+        <p>1. Đăng nhập vào <a href="https://vercel.com" target="_blank" style="color:var(--cyan);">vercel.com</a> bằng tài khoản GitHub.</p>
+        <p>2. Nhấn <strong>Add New... -> Project</strong> và chọn repository <code>lsp-t703-pivision-sim</code>.</p>
+        <p>3. Giữ nguyên cấu hình mặc định (Framework Preset: <em>Other</em>) và nhấn <strong>Deploy</strong>. Chỉ sau 5 giây bạn sẽ có link web chạy thời gian thực.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ==================== 1. REAL-TIME CLOCK ====================
+  function updateClock() {
+    const now = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    const str = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    const el = document.getElementById('realTimeClock');
+    if (el) el.textContent = str;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ==================== 2. COMPLETE DATABASE OF VALVES (SOP STARTUP + SHUTDOWN + P&ID) ====================
+  const VALVES_DB = [
+    // TK-703 & P-703 Area
+    { id: 'V1', x: 85, y: 185, open: true, type: 'manual', area: 'TK-703 / P-703', desc: 'Van cô lập đáy TK-703 cấp vào đầu hút P-703 (hoặc van xả condensate D-784A khi warmup)' },
+    { id: 'V2', x: 145, y: 278, open: true, type: 'manual', area: 'D-701', desc: 'Van đầu vào nạp Hexane trên đỉnh bình D-701 (hoặc van xả D-715)' },
+    { id: 'V3', x: 205, y: 160, open: true, type: 'manual', area: 'P-703', desc: 'Van đường Minimum Flow của bơm P-703 về lại TK-703 (hoặc van chuyển hướng D-702)' },
+    { id: 'V4', x: 215, y: 215, open: true, type: 'manual', area: 'P-703', desc: 'Van đầu xả bơm P-703 cấp tới van điều khiển FV-713 nạp về D-701' },
+    { id: 'V5', x: 250, y: 85, open: false, type: 'manual', area: 'P-703 -> D-702', desc: 'Van cấp Hexane từ P-703 sang bình D-702 (Đóng khi cấp cho D-701)' },
+    { id: 'FV-713', x: 250, y: 265, open: true, type: 'control', area: 'D-701 Feed', desc: 'Van điều khiển lưu lượng Hexane từ P-703 vào D-701 (FIC-713)' },
+    { id: 'HV-713', x: 250, y: 298, open: true, type: 'esd', area: 'D-701 Feed', desc: 'Van cô lập khẩn cấp đường nạp Hexane vào D-701' },
+
+    // HHX Washing & D-701 / P-702A/B Area
+    { id: 'V6', x: 112, y: 520, open: false, type: 'manual', area: 'HHX Washing', desc: 'Van cấp Hexane rửa (HHX) vào đường hút P-702A/B / rửa tuyến ống T-703' },
+    { id: 'V7', x: 148, y: 520, open: false, type: 'manual', area: 'HHX Washing', desc: 'Van chặn thứ 2 cấp Hexane rửa (HHX) làm sạch tuyến ống đến T-703' },
+    { id: 'V8', x: 140, y: 418, open: true, type: 'manual', area: 'D-701 Bottom', desc: 'Van đáy bình D-701 (hoặc van xả khí P-703 khi khởi động)' },
+    { id: 'V9', x: 235, y: 400, open: true, type: 'manual', area: 'P-702A/B', desc: 'Van đường Minimum Flow của bơm P-702A/B tuần hoàn về D-701' },
+    { id: 'V14', x: 162, y: 460, open: true, type: 'manual', area: 'P-702A/B Suction', desc: 'Van đầu hút bơm P-702A từ đáy D-701' },
+    { id: 'V15', x: 162, y: 490, open: false, type: 'manual', area: 'P-702B Suction', desc: 'Van đầu hút bơm dự phòng P-702B' },
+    { id: 'V16', x: 258, y: 460, open: true, type: 'manual', area: 'P-702A/B Discharge', desc: 'Van đầu xả bơm P-702A/B cấp đi T-703' },
+    { id: 'V13a/b', x: 200, y: 515, open: true, type: 'manual', area: 'P-702A/B Seal', desc: 'Van cấp HHX Flushing Mechanical Seal cho bơm P-702A/B (FG-7101A/B: 462 l/h)' },
+    { id: 'FV-712', x: 330, y: 460, open: true, type: 'control', area: 'T-703 Feed', desc: 'Van điều khiển lưu lượng dịch cấp vào T-703 (FIC-712, liên khóa ESD I-705)' },
+    { id: 'V10', x: 330, y: 410, open: false, type: 'manual', area: 'FV-712 Bypass', desc: 'Van Bypass của van điều khiển FV-712 (Mở khi rửa T-703 sau khi đóng cô lập FV-712)' },
+
+    // T-703 Overhead, Reflux & E-704 / D-702
+    { id: 'FV-736', x: 405, y: 155, open: true, type: 'control', area: 'T-703 Reflux', desc: 'Van cấp Hexane Reflux đỉnh T-703 ngăn cuốn LP & cấu tử sôi cao lên đỉnh (FIC-736)' },
+    { id: 'PV-721', x: 585, y: 75, open: true, type: 'control', area: 'T-703 Overhead', desc: 'Van điều khiển áp suất đỉnh T-703 (PIC-721: giảm áp từ 3.0 xuống 0.2 kg/cm²G vào E-704)' },
+    { id: 'PV-731', x: 797, y: 75, open: true, type: 'control', area: 'D-702 Overhead', desc: 'Van Split-Range (PV-731-1/2) kiểm soát áp suất bình D-702 ở 0.2 kg/cm²G' },
+    { id: 'LV-732', x: 845, y: 215, open: true, type: 'control', area: 'D-702 Bottom', desc: 'Van điều khiển mức bình D-702 (LIC-732 Split-Range)' },
+
+    // T-703 Reboiler E-703A/B & Forced Circulation P-705A/B
+    { id: 'FV-721', x: 695, y: 330, open: true, type: 'control', area: 'E-703A/B Steam', desc: 'Van cấp hơi MS vào phía vỏ (Shell) Reboiler E-703A/B (FIC-721)' },
+    { id: 'LV-725A', x: 755, y: 425, open: true, type: 'control', area: 'D-784A/B Condensate', desc: 'Van xả nước ngưng (Condensate) từ bình D-784A/B về D-851 (LIC-725A)' },
+    { id: 'V21', x: 515, y: 545, open: true, type: 'manual', area: 'P-705A/B Suction', desc: 'Van cô lập đầu hút bơm tuần hoàn cưỡng bức P-705A/B' },
+    { id: 'V22', x: 612, y: 545, open: true, type: 'manual', area: 'P-705A/B Discharge', desc: 'Van cô lập đầu xả bơm tuần hoàn P-705A/B lên E-703A/B' },
+    { id: 'V23', x: 570, y: 510, open: true, type: 'manual', area: 'P-705A/B Seal', desc: 'Van cấp HHX Flushing Mechanical Seal cho P-705A/B (FG-7201A/B: 960 l/h)' },
+
+    // T-703 Bottom LP Transfer P-711A/B -> E-711 -> D-711
+    { id: 'V11', x: 655, y: 615, open: false, type: 'manual', area: 'P-711A/B Drain', desc: 'Van xả kiểm tra hạt trắng (Low Polymer/Powder) ở đầu hút P-711A/B & nối ống mềm sang V25' },
+    { id: 'PV-723', x: 785, y: 615, open: true, type: 'control', area: 'P-711A/B Discharge', desc: 'Van kiểm soát áp suất đầu đẩy bơm P-711A/B (PIC-723)' },
+    { id: 'TV-724', x: 810, y: 515, open: true, type: 'control', area: 'E-711 Steam', desc: 'Van cấp hơi HS gia nhiệt E-711 đạt 200°C (TIC-724)' },
+    { id: 'LV-727', x: 905, y: 545, open: true, type: 'control', area: 'D-715 Condensate', desc: 'Van xả nước ngưng HC từ bình D-715 về D-851 (LIC-727)' },
+    { id: 'FV-722', x: 920, y: 360, open: true, type: 'control', area: 'D-711 LP Feed', desc: 'Van điều khiển lưu lượng LP từ đáy T-703 sang D-711 để giữ nồng độ LP 5-10 wt% (FIC-722)' },
+    { id: 'V25', x: 685, y: 655, open: false, type: 'manual', area: 'Drain to D-752 / MS Coil', desc: 'Van nhận ống mềm xả từ V11 về D-752 (hoặc cấp hơi MS cho coil D-711 trong SOP Start-up)' },
+    { id: 'TV-727', x: 1030, y: 265, open: true, type: 'control', area: 'D-711 Jacket', desc: 'Van điều khiển nhiệt độ vỏ gia nhiệt bình D-711 ở 160°C (TIC-727)' },
+    { id: 'TV-728', x: 1147, y: 315, open: true, type: 'control', area: 'E-712 Temp', desc: 'Van điều khiển nhiệt độ tại thiết bị E-712 (TIC-728)' },
+
+    // Dump Out & Drain Valves to D-752
+    { id: 'V26', x: 530, y: 585, open: false, type: 'manual', area: 'P-705 Suction Drain', desc: 'Van xả đáy đầu hút P-705A/B nối ống mềm sang V27 (hoặc cấp HHX từ TK-702 trong Start-up 4b)' },
+    { id: 'V27', x: 530, y: 655, open: false, type: 'manual', area: 'Drain Header D-752', desc: 'Van tiếp nhận ống mềm từ V26 xả Hexane tồn dư về bình D-752' },
+    { id: 'V28', x: 610, y: 675, open: false, type: 'manual', area: 'T-703 -> D-752', desc: 'Van tuyến ống xả kín từ cụm T-703 về D-752' },
+    { id: 'V29', x: 760, y: 675, open: false, type: 'manual', area: 'T-703 -> D-752', desc: 'Van chặn trung gian trên tuyến xả kín về D-752' },
+    { id: 'V30', x: 910, y: 675, open: false, type: 'manual', area: 'D-752 Inlet', desc: 'Van đầu vào bình thu gom xả kín D-752' },
+    { id: 'V32a/b', x: 725, y: 675, open: false, type: 'manual', area: 'P-711 Drain', desc: 'Van xả đáy bơm P-711A/B về D-752 (Đóng ngay khi mức D-752 cao)' },
+    { id: 'V33', x: 435, y: 390, open: false, type: 'manual', area: 'LN Purge', desc: 'Van cấp khí Nitơ (LN) đuổi khí / nén xả (Đóng hoàn toàn và tháo ống mềm khi kết thúc)' }
+  ];
+
+  // ==================== 3. PROCESS STATE & CONTROLLERS ====================
+  const STATE = {
+    mode: 'NORMAL', // COLD, STARTUP, NORMAL, SHUTDOWN
+    sopType: 'startup',
+    currentStepIdx: 0,
+    esdTripped: false,
+    activeFaults: [],
+    pumps: {
+      'P-703': true,
+      'P-702A/B': true,
+      'P-705A/B': true,
+      'P-711A/B': true,
+      'P-706A/B': true,
+      'P-712': true
+    },
+    controllers: [
+      { tag: 'PIC-721', desc: 'T-703 Overhead Pressure', unit: 'kg/cm²G', mode: 'AUTO', sv: 3.0, pv: 3.0, mv: 54, valveId: 'PV-721', min: 0, max: 5.0 },
+      { tag: 'FIC-721', desc: 'MS Steam to E-703A/B Reboiler', unit: 't/h', mode: 'AUTO', sv: 12.5, pv: 12.5, mv: 62, valveId: 'FV-721', min: 0, max: 25.0 },
+      { tag: 'LIC-721', desc: 'T-703 Bottom Liquid Level', unit: '%', mode: 'AUTO', sv: 52.0, pv: 52.0, mv: 50, valveId: 'FV-712', min: 0, max: 100 },
+      { tag: 'FIC-712', desc: 'Hexane/ML Feed D-701 -> T-703', unit: 't/h', mode: 'AUTO', sv: 30.0, pv: 30.0, mv: 58, valveId: 'FV-712', min: 0, max: 50.0 },
+      { tag: 'FIC-736', desc: 'T-703 Top Hexane Reflux', unit: 't/h', mode: 'AUTO', sv: 4.5, pv: 4.5, mv: 45, valveId: 'FV-736', min: 0, max: 10.0 },
+      { tag: 'FIC-722', desc: 'T-703 Bottom LP to D-711 (5-10 wt%)', unit: 't/h', mode: 'AUTO', sv: 7.0, pv: 7.0, mv: 48, valveId: 'FV-722', min: 0, max: 15.0 },
+      { tag: 'PIC-731', desc: 'D-702 Overhead Pressure (Depressed)', unit: 'kg/cm²G', mode: 'AUTO', sv: 0.20, pv: 0.20, mv: 50, valveId: 'PV-731', min: 0, max: 1.5 },
+      { tag: 'TIC-724', desc: 'HS Steam to E-711 LP Heater', unit: '°C', mode: 'AUTO', sv: 200.0, pv: 200.0, mv: 55, valveId: 'TV-724', min: 30, max: 250 },
+      { tag: 'TIC-727', desc: 'D-711 Jacket Heating Temp', unit: '°C', mode: 'AUTO', sv: 160.0, pv: 160.0, mv: 42, valveId: 'TV-727', min: 30, max: 200 },
+      { tag: 'FIC-713', desc: 'TK-703 -> D-701 Hexane Feed', unit: 't/h', mode: 'AUTO', sv: 10.0, pv: 10.0, mv: 35, valveId: 'FV-713', min: 0, max: 45.0 }
+    ],
+    processVars: {
+      t703Temp: 120.0,
+      t703Press: 3.00,
+      d702Press: 0.20,
+      lpConcWt: 7.5,
+      tk703Level: 65.0,
+      d701Level: 50.0,
+      d701Temp: 60.0,
+      d711Level: 35.0,
+      d752Level: 12.0
+    },
+    locatedValveId: null
+  };
+
+  // ==================== 4. SOP STEPS (START-UP 02-001 & SHUTDOWN 06-001) ====================
+  const SOP_DATA = {
+    startup: [
+      {
+        step: 'Bước 1: Chuẩn bị & Kiểm tra An toàn (Preparation)',
+        role: 'PS / BM / FO',
+        en: 'Confirm N2 purging finished, Loop T-704 in service, P-708A/B running (Seal flush: FG-7101=462 l/h, FG-7201=960 l/h, FG-7202=300 l/h). Reset ESD I-705, I-706. Set PIC-731.SV=0.2 kg/cm2G AUTO. PV-721, LV-725A, LV-727 MV=0% MAN. HV-713 OPEN.',
+        vi: 'Xác nhận đuổi khí N2 xong, T-704 đã chạy, bơm P-708A/B cấp seal flush đủ lưu lượng. Reset liên khóa I-705, I-706. Đặt PIC-731.SV = 0.2 kg/cm²G (AUTO). Đưa PV-721, LV-725A, LV-727 về 0% (MAN). Mở HV-713.',
+        note: 'Kiểm tra toàn bộ van cô lập trước/sau các PSV (PSV-701, 702, 703A/B, 706, 719...) ở trạng thái MỞ (LO).',
+        valves: ['HV-713', 'PV-731', 'PV-721', 'LV-725A', 'LV-727'],
+        action: () => {
+          STATE.esdTripped = false;
+          setValveState('HV-713', true);
+          setValveState('PV-731', true);
+          setController('PIC-731', 'AUTO', 0.20, 50);
+          setController('PIC-721', 'MAN', 3.0, 0);
+        }
+      },
+      {
+        step: 'Bước 2: Làm ấm D-701, D-711, E-711 & Jacket (Warm-up 10h)',
+        role: 'BM / FO',
+        en: 'Check condensate at D-715 (LG-7207, drain V2), set LV-727.SV=30% AUTO. Supply LS to D-701 coil (T-7001), check TI-712 ~60°C. Increase TV-724.MV to 5% MAN (E-711). Open V25 MS to D-711 coil, increase TV-727.MV to 5%, then TIC-727.SV=160°C AUTO.',
+        vi: 'Kiểm tra condensate tại D-715 (xả kiểm tra V2), đặt LV-727.SV=30% AUTO. Cấp hơi LS cho D-701 đạt TI-712 ~60°C. Tăng TV-724.MV lên 5% làm ấm E-711. Mở V25 cấp MS và đặt TIC-727.SV = 160°C AUTO làm ấm D-711 trước ít nhất 10 giờ.',
+        note: 'Xả nước ngưng tại các bẫy hơi T-7001, T-7006, T-7007, T-7008, T-7009, T-7011 để tránh thủy kích (Water Hammer).',
+        valves: ['V2', 'LV-727', 'TV-724', 'V25', 'TV-727'],
+        action: () => {
+          setValveState('LV-727', true);
+          setValveState('TV-724', true);
+          setValveState('TV-727', true);
+          setController('TIC-727', 'AUTO', 160.0, 42);
+          STATE.processVars.d701Temp = 60.0;
+        }
+      },
+      {
+        step: 'Bước 3: Làm ấm Reboiler E-703A/B (Warm-up 2-3h)',
+        role: 'BM / FO',
+        en: 'BM gradually increases FV-721.MV step by step to 5% in MAN mode to supply MS steam to E-703A/B. Check condensate in D-784A via LG-7250A & V1. Set LV-725A.SV=30% AUTO.',
+        vi: 'BM tăng dần độ mở van hơi FV-721 lên 5% ở chế độ MAN để cấp hơi MS làm ấm E-703A/B trước 2-3 giờ. FO kiểm tra nước ngưng tại D-784A qua V1, sau đó BM đặt LV-725A.SV = 30% AUTO.',
+        note: 'Mở hơi làm ấm toàn bộ đường ống bọc (Jacket/Tracing) từ D-701 -> T-703 và T-703 -> E-703A/B.',
+        valves: ['FV-721', 'V1', 'LV-725A'],
+        action: () => {
+          setValveState('FV-721', true);
+          setValveState('LV-725A', true);
+          setController('FIC-721', 'MAN', 12.5, 15);
+        }
+      },
+      {
+        step: 'Bước 4a/4b: Nạp Hexane từ TK-703 (hoặc TK-702) vào D-701',
+        role: 'BM / FO',
+        en: 'Confirm TK-703 > 50% (LI-714B). Close V3, V5 (to D-702) and Open V4 (to D-701). Open suction V1/V6/V7, vent V8, start P-703, open discharge V9/V4. Set FIC-713.SV = 10 t/h AUTO. (Or Step 4b: feed via V26 & V14 from TK-702).',
+        vi: 'Xác nhận mức TK-703 > 50%. Đóng V5 (đi D-702), mở V1, V4 (đi D-701). Khởi động bơm P-703, kiểm tra áp suất PG-7102, độ rung và rò rỉ. Đặt FIC-713.SV = 10 t/h ở chế độ AUTO để nạp Hexane vào D-701.',
+        note: 'Nếu mức TK-702 cao (>70%), có thể nạp Hexane vào D-701 qua van V26 và V14 theo bước 4b.',
+        valves: ['V1', 'V3', 'V4', 'V5', 'FV-713', 'V26', 'V14'],
+        action: () => {
+          setValveState('V1', true);
+          setValveState('V3', true);
+          setValveState('V4', true);
+          setValveState('V5', false);
+          setValveState('FV-713', true);
+          STATE.pumps['P-703'] = true;
+          setController('FIC-713', 'AUTO', 10.0, 35);
+          STATE.processVars.d701Level = 25.0;
+        }
+      },
+      {
+        step: 'Bước 5: Khởi động P-702A/B & Nạp Hexane vào T-703',
+        role: 'BM / FO',
+        en: 'Supply flushing to LT-711 (20 kg/h). When D-701 level LI-711 reaches 10%, open V8/V14 suction, start pump P-702A/B, open V16 discharge & V9 min flow. Feed Hexane to T-703 via FIC-712 (FV-712) and top reflux FV-736.',
+        vi: 'Khi mức D-701 (LI-711) đạt ≥ 10%, mở van hút V8, V14, khởi động bơm P-702A/B, mở van đẩy V16 và van tuần hoàn tối thiểu V9. Nạp Hexane vào T-703 qua van FIC-712 (FV-712) và cấp hồi lưu đỉnh FV-736.',
+        note: 'Đảm bảo van V10 (bypass FV-712) đang ĐÓNG để điều khiển lưu lượng chính xác qua FV-712.',
+        valves: ['V8', 'V14', 'V16', 'V9', 'FV-712', 'V10', 'FV-736'],
+        action: () => {
+          setValveState('V8', true);
+          setValveState('V14', true);
+          setValveState('V16', true);
+          setValveState('V9', true);
+          setValveState('FV-712', true);
+          setValveState('V10', false);
+          setValveState('FV-736', true);
+          STATE.pumps['P-702A/B'] = true;
+          setController('FIC-712', 'AUTO', 30.0, 58);
+          setController('FIC-736', 'AUTO', 4.5, 45);
+        }
+      },
+      {
+        step: 'Bước 6: Chạy tuần hoàn P-705A/B & Nâng nhiệt T-703 lên 120°C, 3 kg/cm²G',
+        role: 'BM / FO',
+        en: 'When T-703 level LIC-721 reaches normal, open V21, V22, V23 and start Stripper Bottom Pump P-705A/B for forced circulation. Increase MS steam FIC-721 to heat T-703 bottom to 120°C and pressure PIC-721 to 3.0 kg/cm²G.',
+        vi: 'Khi T-703 có mức lỏng, mở van hút V21, van đẩy V22, van seal V23 và chạy bơm tuần hoàn cưỡng bức P-705A/B. Tăng hơi MS qua FIC-721 nâng nhiệt độ đáy T-703 lên 120°C và áp suất đỉnh PIC-721 đạt 3.0 kg/cm²G.',
+        note: 'Hơi Hexane từ T-703 qua PIC-721 giảm áp xuống 0.2 kg/cm²G và ngưng tụ tại E-704 về D-702.',
+        valves: ['V21', 'V22', 'V23', 'FV-721', 'PV-721'],
+        action: () => {
+          setValveState('V21', true);
+          setValveState('V22', true);
+          setValveState('V23', true);
+          setValveState('PV-721', true);
+          STATE.pumps['P-705A/B'] = true;
+          STATE.pumps['P-706A/B'] = true;
+          setController('FIC-721', 'AUTO', 12.5, 62);
+          setController('PIC-721', 'AUTO', 3.0, 54);
+          STATE.processVars.t703Temp = 120.0;
+          STATE.processVars.t703Press = 3.0;
+        }
+      },
+      {
+        step: 'Bước 7: Khởi động P-711A/B, Gia nhiệt E-711 (200°C) & Cấp LP sang D-711',
+        role: 'BM / FO',
+        en: 'Warm up P-711A/B casing as per HD-W-7400-03-001. Start P-711A/B, monitor PIC-723. Set TIC-724.SV = 200°C (HS to E-711). Confirm D-711 temp ~160°C, then set FIC-722.SV = 7 t/h AUTO to control LP concentration at 5-10 wt%.',
+        vi: 'Làm ấm vỏ bơm và khởi động P-711A/B, giám sát áp suất PIC-723. Đặt nhiệt độ E-711 (TIC-724.SV = 200°C). Kiểm tra D-711 đạt ~160°C, sau đó mở FIC-722 đặt SV = 7.0 t/h để kiểm soát nồng độ LP đáy T-703 ở 5 - 10 wt%.',
+        note: 'Kiểm tra chéo áp suất T-703 qua PIC-721 trên DCS và đồng hồ PG-7201, PG-7216 tại hiện trường. Báo cáo Production Supervisor hoàn tất Start-up.',
+        valves: ['PV-723', 'TV-724', 'FV-722', 'TV-727'],
+        action: () => {
+          loadNormalRunningState();
+        }
+      }
+    ],
+    shutdown: [
+      {
+        step: 'Bước 1: Chuẩn bị dừng & Rửa làm sạch bình D-701 (Preparation & D-701 Washing)',
+        role: 'BM / FO',
+        en: 'Confirm LV-703.MV=0%, LV-704.MV=0%, P-721A/B stop. Control FIC-712 at 30 t/h. When LI-711 reaches 5%, start P-703 (open V1, V2, V3, V4) and set FIC-713.SV = 35.5 t/h AUTO while reducing FIC-712.SV = 15-20 t/h to fill & wash D-701.',
+        vi: 'Xác nhận LV-703=0%, LV-704=0%, dừng P-721A/B. Khi mức D-701 (LI-711) xuống 5%, khởi động bơm P-703 (mở V1, V2, V3, V4), đặt FIC-713.SV = 35.5 t/h AUTO và giảm FIC-712 xuống 15-20 t/h để điền đầy và rửa sạch D-701.',
+        note: 'Nếu mức TK-703 (LI-714B) thấp không dùng được P-703, mở V6 hoặc V7 để cấp Hexane rửa và chú ý tránh xâm thực (cavitation) bơm P-702A/B.',
+        valves: ['V1', 'V2', 'V3', 'V4', 'FV-713', 'FV-712'],
+        action: () => {
+          STATE.mode = 'SHUTDOWN';
+          setValveState('V1', true);
+          setValveState('V3', true);
+          setValveState('V4', true);
+          STATE.pumps['P-703'] = true;
+          setController('FIC-713', 'AUTO', 35.5, 78);
+          setController('FIC-712', 'AUTO', 18.0, 35);
+        }
+      },
+      {
+        step: 'Bước 2: Dừng bơm P-703, Xả cạn D-701 & Dừng bơm P-702A/B',
+        role: 'BM / FO',
+        en: 'Reduce D-701 level to 5% by adjusting FIC-712.SV=30-46 t/h and cut off P-703 by FIC-713.MV=0%. Stop P-703, close V4 & V3 fully. Drain remaining hexane in D-701; when PG-7101A/B oscillates, stop P-702A/B (Interlock I-705 closes FV-712). Close V8 & V9.',
+        vi: 'Đặt FIC-713.MV = 0%, dừng bơm P-703, đóng chặt V4 và V3. Xả hết Hexane trong D-701 sang T-703; khi kim đồng hồ PG-7101A/B dao động thì dừng P-702A/B (Liên khóa I-705 sẽ tự đóng FV-712 chống áp ngược). Đóng hoàn toàn V8 và V9.',
+        note: 'Interlock I-705 kích hoạt ngay khi P-702A/B dừng để ngăn áp suất 3.0 kg/cm²G từ T-703 dội ngược về D-701.',
+        valves: ['V4', 'V3', 'FV-713', 'FV-712', 'V8', 'V9'],
+        action: () => {
+          setController('FIC-713', 'MAN', 0, 0);
+          STATE.pumps['P-703'] = false;
+          setValveState('V4', false);
+          setValveState('V3', false);
+          STATE.pumps['P-702A/B'] = false;
+          STATE.esdTripped = true;
+          setValveState('FV-712', false);
+          setValveState('V8', false);
+          setValveState('V9', false);
+          STATE.processVars.d701Level = 2.0;
+        }
+      },
+      {
+        step: 'Bước 3: Rửa tuyến ống & Tháp T-703 qua van Bypass V10 (T-703 Washing)',
+        role: 'BM / FO',
+        en: 'Open V6 and V7 gradually to fully to clean line to T-703. Keep P-702A/B discharge V16 & seal V13a/b open. Open V10 (bypass of FV-712) fully and close upstream/downstream isolation of FV-712. Manually keep FV-736 open above min flow.',
+        vi: 'Mở từ từ đến hết cỡ V6 và V7 để đưa Hexane sạch vào rửa tuyến ống tới T-703. Giữ van đầu xả V16 và van seal V13a/b mở. Mở hoàn toàn van Bypass V10 và đóng cô lập FV-712. Mở tay FV-736 để ngăn ML xâm nhập lên đỉnh.',
+        note: 'LƯU Ý CASCADE: Giữa FV-736 và FV-712 có điều khiển Cascade. Khi FV-712 đóng, FV-736 sẽ tự đóng theo -> Phải chuyển FV-736 sang MAN và mở trên mức tối thiểu!',
+        valves: ['V6', 'V7', 'V16', 'V13a/b', 'V10', 'FV-712', 'FV-736'],
+        action: () => {
+          setValveState('V6', true);
+          setValveState('V7', true);
+          setValveState('V16', true);
+          setValveState('V13a/b', true);
+          setValveState('V10', true);
+          setValveState('FV-712', false);
+          setValveState('FV-736', true);
+          setController('FIC-736', 'MAN', 4.5, 45);
+        }
+      },
+      {
+        step: 'Bước 4: Xả kiểm tra hạt Low Polymer tại V11 mỗi 30 phút & Cắt Hexane rửa',
+        role: 'FO / BM',
+        en: 'After 30 mins, connect grounding and crack open V11 (drain valve on P-711A/B suction) to check if white powder/LP particles remain. Repeat every 30 mins until clean. Then close V11, close V6, V7, V10, V13a/b and P-702A/B discharge V16.',
+        vi: 'Sau 30 phút, kẹp dây nối đất chống tĩnh điện và hé mở van xả V11 (đầu hút P-711A/B) kiểm tra hạt trắng (bột/LP). Kiểm tra lại mỗi 30 phút đến khi chỉ còn Hexane trong suốt thì đóng V11. Sau đó đóng hoàn toàn V6, V7, V10, V13a/b và V16.',
+        note: 'Bắt buộc nối đất (Grounding) khi xả kiểm tra Hexane tại V11 để phòng chống cháy nổ do phóng tĩnh điện!',
+        valves: ['V11', 'V6', 'V7', 'V10', 'V13a/b', 'V16'],
+        action: () => {
+          setValveState('V11', false);
+          setValveState('V6', false);
+          setValveState('V7', false);
+          setValveState('V10', false);
+          setValveState('V13a/b', false);
+          setValveState('V16', false);
+          STATE.processVars.lpConcWt = 0.2;
+        }
+      },
+      {
+        step: 'Bước 5: Giảm nhiệt E-703A/B (< 40°C/h), Dừng P-705A/B, P-711A/B & Xả nước ngưng',
+        role: 'BM / FO',
+        en: 'Put FIC-721 in MAN mode and gradually reduce FV-721 opening with cooling rate < 40°C/hr until 0%. Stop P-705A/B & P-711A/B, close FIC-722 (FV-722=0%). Dump out MC at D-784A/B via LV-725A/B and HC at D-715 via LV-727 to D-851, then close block valves.',
+        vi: 'Đặt FIC-721 sang MAN và giảm dần độ mở FV-721 với tốc độ giảm nhiệt dưới 40°C/giờ về 0%. Dừng bơm P-705A/B và P-711A/B, đóng FV-722. Xả hết nước ngưng tại D-784A/B (qua LV-725A) và D-715 (qua LV-727) về D-851 rồi đóng van cô lập.',
+        note: 'Khống chế tốc độ giảm nhiệt < 40°C/giờ để bảo vệ thiết bị trao đổi nhiệt E-703A/B khỏi sốc nhiệt.',
+        valves: ['FV-721', 'FV-722', 'LV-725A', 'LV-727'],
+        action: () => {
+          setController('FIC-721', 'MAN', 0, 0);
+          setController('FIC-722', 'MAN', 0, 0);
+          setValveState('FV-721', false);
+          setValveState('FV-722', false);
+          STATE.pumps['P-705A/B'] = false;
+          STATE.pumps['P-711A/B'] = false;
+          setValveState('LV-725A', false);
+          setValveState('LV-727', false);
+          STATE.processVars.t703Temp = 45.0;
+          STATE.processVars.t703Press = 0.3;
+        }
+      },
+      {
+        step: 'Bước 6: Nối ống mềm xả cạn Hexane trong T-703 về bình D-752 (Dump Out & Finish)',
+        role: 'FO / BM / PS',
+        en: 'Connect flexible hose (with whip-check) from V11 -> V25 and V26 -> V27. Confirm V28, V29, V30 open (T-703 -> D-752). Open V11, V25, V26, V27 to transfer remaining hexane to D-752 (monitor PG-7502). When finished, close V32a/b, V27, V33 (LN), disconnect hoses & cut off LS tracing.',
+        vi: 'Lắp ống mềm (kèm dây cáp an toàn whip-check) từ V11 sang V25 và từ V26 sang V27. Xác nhận V28, V29, V30 mở. Mở dần V11, V25, V26, V27 để xả hết Hexane còn lại trong T-703 về D-752 (theo dõi PG-7502). Khi xong, đóng các van xả, đóng V33 cắt LN, tháo ống mềm, cắt hơi LS tracing và báo cáo hoàn tất Shutdown.',
+        note: 'Trong quá trình xả, nếu mức D-752 báo cao, BM phải báo ngay cho FO đóng hoàn toàn V32a/b và các van xả để tránh tràn bình D-752.',
+        valves: ['V11', 'V25', 'V26', 'V27', 'V28', 'V29', 'V30', 'V32a/b', 'V33'],
+        action: () => {
+          setValveState('V11', true);
+          setValveState('V25', true);
+          setValveState('V26', true);
+          setValveState('V27', true);
+          setValveState('V28', true);
+          setValveState('V29', true);
+          setValveState('V30', true);
+          STATE.processVars.d752Level = 68.0;
+          STATE.processVars.t703Temp = 35.0;
+          STATE.processVars.t703Press = 0.05;
+        }
+      }
+    ]
+  };
+
+  // ==================== 5. COMPLETE TROUBLESHOOTING / HAZOP DATABASE FROM BOTH SOPs ====================
+  const FAULTS_DB = [
+    {
+      id: 'FAULT-1',
+      tag: 'TV-728 / E-712 / D-711',
+      title: '1. Nghẹt Low Polymer trong phía ống E-712 (LP Plugging in Tube Side of E-712)',
+      cause: 'Nhiệt độ gia nhiệt tại E-712 thấp do lỗi van TV-728 hoặc mất hơi cấp cho áo nhiệt (Steam Jacket) ở đầu vào E-712.',
+      consequence: 'Mất dòng nạp chuyển tiếp sang D-712 và làm tăng mức nhanh trong bình D-711 (LIC-722). Nguy cơ ngập bình D-711 và cuốn chất lỏng (carryover) ngược sang tháp T-703, gây nghẹt đường vent và quá áp hệ thống D-711, rò rỉ mất kiểm soát (LOC).',
+      remedy: [
+        'Bảo trì phòng ngừa định kỳ van TV-728.',
+        'Kiểm tra ngay mức lỏng trong D-711 qua LIC-722 và kiểm tra nhiệt độ TIC-728, TG-7202.',
+        'Kiểm tra nguồn cung cấp hơi (Steam supply) cho ống bọc Jacket ở đầu vào E-712.',
+        'Kiểm tra độ mở thực tế của van TV-728: Nếu vị trí van đúng nhưng vẫn nghẹt/lỗi, đóng van cô lập phía trước (upstream) của TV-728 và điều khiển bằng tay qua van Bypass. Nếu vị trí van sai, hiệu chỉnh lại van.'
+      ],
+      focusValve: 'TV-728'
+    },
+    {
+      id: 'FAULT-2',
+      tag: 'PIC-723 / PV-723 / FV-722',
+      title: '2. Áp suất cao tại đầu đẩy bơm P-711A/B (High Pressure at P-711A/B Discharge)',
+      cause: 'Đầu ra của bơm P-711A/B bị chặn do sự cố phía sau (ví dụ: van FV-722 đóng đột ngột) hoặc vô tình đóng van điều khiển áp suất PV-723 trên đầu xả P-711A/B.',
+      consequence: 'Nguy cơ quá áp nghiêm trọng tại thiết bị gia nhiệt E-711 và đường ống, dẫn đến hư hỏng cơ khí, rò rỉ Hexane/LP ở nhiệt độ cao (LOC), gây cháy nổ.',
+      remedy: [
+        'Bảo dưỡng phòng ngừa định kỳ cho van FV-722 và PV-723.',
+        'Kiểm tra ngay vị trí thực tế tại hiện trường của van PV-723 và FV-722.',
+        'Nếu vị trí van điều khiển đúng nhưng kẹt lưu lượng, Người vận hành (FO) phải lập tức điều khiển bằng tay qua van Bypass. Nếu vị trí van bị sai lệch, điều chỉnh mở lại van ngay.'
+      ],
+      focusValve: 'PV-723'
+    },
+    {
+      id: 'FAULT-3',
+      tag: 'LIC-721 / FV-721 / E-703A/B',
+      title: '3. Mức chất lỏng thấp cực hạn trong T-703 (Low-Low Level in T-703 & Overpressure D-702)',
+      cause: 'Cấp hơi MS quá mức (Excessive steam) vào Reboiler E-703A/B qua van FV-721 hoặc mất dòng nạp từ D-701.',
+      consequence: 'Lượng hơi Hexane sinh ra quá mức từ T-703 vượt tải ngưng tụ của E-704, dẫn đến quá áp hệ thống bình D-702 (thiết kế chịu áp 3.8 barg), gây hư hỏng thiết bị, rò rỉ (LOC) và nguy cơ cháy nổ.',
+      remedy: [
+        'Giám sát chặt chẽ mức T-703 qua LIC-721 và LZI-729.',
+        'Chuyển ngay bộ điều khiển hơi FIC-721 sang chế độ MANUAL và giảm độ mở van FV-721 để hạ lượng hơi MS vào E-703A/B.',
+        'Kiểm tra hoạt động của van điều khiển áp suất PIC-721 (PV-721) và PIC-731 trên bình D-702.'
+      ],
+      focusValve: 'FV-721'
+    },
+    {
+      id: 'FAULT-4',
+      tag: 'FV-736 / P-708A/B',
+      title: '4. Mất dòng Hexane Reflux đỉnh T-703 (Loss of Reflux / Cascade Closure FV-736)',
+      cause: 'Bơm P-708A/B dừng, van FV-736 kẹt đóng, hoặc trong quá trình Shutdown khi đóng van FV-712 thì bộ điều khiển Cascade tự động kéo đóng van FV-736 theo.',
+      consequence: 'Mother Liquor (ML) và Low Polymer bị cuốn theo hơi lên đỉnh tháp T-703, gây nhiễm bẩn và tắc nghẽn đường ống đỉnh (Overhead line) cũng như bó ống thiết bị ngưng tụ E-704 nếu để kéo dài.',
+      remedy: [
+        'Bảo dưỡng phòng ngừa cho van FV-736 và cụm bơm P-708A/B.',
+        'Khởi động lại bơm dự phòng P-708A/B ngay nếu bơm đang chạy bị dừng.',
+        'Chuyển FIC-736 sang chế độ MANUAL và chủ động mở van FV-736 (không để lưu lượng thấp hơn mức tối thiểu khi rửa tháp).'
+      ],
+      focusValve: 'FV-736'
+    },
+    {
+      id: 'FAULT-5',
+      tag: 'P-702A/B / I-705 / P-703',
+      title: '5. Xâm thực bơm P-702A/B & Kích hoạt Liên khóa ESD I-705 (Pump Cavitation & Backpressure)',
+      cause: 'Mức bình D-701 (LI-711) quá thấp (< 5%), hoặc không sử dụng bơm P-703 khi mức TK-703 thấp làm thiếu áp suất đầu hút P-702A/B.',
+      consequence: 'Bơm P-702A/B bị xâm thực (cavitation), rung động mạnh, dao động áp suất trên PG-7101A/B. Khi P-702A/B dừng, nguy cơ áp suất 3.0 kg/cm²G từ T-703 dội ngược về D-701.',
+      remedy: [
+        'Theo dõi sát mức LI-711 và đồng hồ áp suất PG-7101A/B. Khi kim PG dao động phải dừng bơm P-702A/B ngay.',
+        'Xác nhận liên khóa I-705 tự động đóng chặt van FV-712 để chặn áp lực ngược từ T-703.',
+        'Nếu TK-703 thấp không chạy được P-703, FO mở van V6/V7 từ tuyến HHX để bổ sung lưu lượng.'
+      ],
+      focusValve: 'FV-712'
+    },
+    {
+      id: 'FAULT-6',
+      tag: 'V11 / V25 / V26 / V27 / D-752',
+      title: '6. Quá mức bình D-752, Phóng tĩnh điện & Tuột ống mềm khi Xả (Dump Out Hazards)',
+      cause: 'Xả Hexane từ T-703 (qua V11-V25, V26-V27, V32a/b) về D-752 quá nhanh làm mức D-752 dâng cao, hoặc quên kẹp dây nối đất / quên lắp dây chống văng ống mềm (whip-check).',
+      consequence: 'Tràn bình D-752, tăng áp PG-7502, rò rỉ khí Hexane gây cháy nổ do phóng tĩnh điện (Electrostatic discharge) khi lấy mẫu kiểm tra hạt LP tại V11.',
+      remedy: [
+        'Bắt buộc kẹp dây nối đất (Grounding) mỗi khi xả kiểm tra hạt Low Polymer tại van V11.',
+        'Bắt buộc lắp dây an toàn giữ ống (Whip-check) cho mọi khớp nối ống mềm (V11-V25 và V26-V27) và kiểm tra rò rỉ liên tục.',
+        'Khi mức D-752 báo cao hoặc áp suất PG-7502 tăng cao, BM thông báo ngay cho FO đóng hoàn toàn van V32a/b và các van xả V27.'
+      ],
+      focusValve: 'V11'
+    }
+  ];
+
+  // ==================== 6. RENDER P&ID VALVES WITH LARGE CLEAR LABELS ====================
+  function renderPidValves() {
+    const layer = document.getElementById('valvesSvgLayer');
+    if (!layer) return;
+    layer.innerHTML = '';
+
+    VALVES_DB.forEach(v => {
+      const color = v.open ? '#00e676' : '#ff1744';
+      const isSelected = STATE.locatedValveId === v.id;
+      const strokeColor = isSelected ? '#ffb300' : color;
+      const labelWidth = Math.max(36, v.id.length * 8.2 + 10);
+
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.setAttribute('class', 'valve-node');
+      g.setAttribute('transform', `translate(${v.x}, ${v.y})`);
+      g.onclick = (e) => {
+        e.stopPropagation();
+        selectAndLocateValve(v.id, true);
+      };
+
+      // Control valve dome if control type
+      let domeSvg = '';
+      if (v.type === 'control' || v.type === 'esd') {
+        domeSvg = `
+          <line x1="0" y1="0" x2="0" y2="-11" stroke="${strokeColor}" stroke-width="2" />
+          <path d="M -8 -11 A 8 6 0 0 1 8 -11 Z" fill="${v.type === 'esd' ? '#d500f9' : '#00e5ff'}" stroke="#fff" stroke-width="1" />
+        `;
+      }
+
+      g.innerHTML = `
+        ${domeSvg}
+        <!-- Bowtie Valve Symbol -->
+        <polygon points="-9,-6 0,0 -9,6" fill="${color}" stroke="#0b111e" stroke-width="1" />
+        <polygon points="9,-6 0,0 9,6" fill="${color}" stroke="#0b111e" stroke-width="1" />
+        <circle cx="0" cy="0" r="2.8" fill="#fff" />
+        <!-- High-Contrast Large Tag Badge -->
+        <rect x="${-labelWidth / 2}" y="8" width="${labelWidth}" height="17" class="valve-label-bg" stroke="${strokeColor}" />
+        <text x="0" y="16.5" fill="${isSelected ? '#fde047' : '#ffffff'}" class="valve-label-text">${v.id}</text>
+      `;
+
+      layer.appendChild(g);
+    });
+
+    renderBeacon();
+    updatePipeFlows();
+  }
+
+  function renderBeacon() {
+    const beaconLayer = document.getElementById('beaconSvgLayer');
+    if (!beaconLayer) return;
+    beaconLayer.innerHTML = '';
+
+    if (!STATE.locatedValveId) return;
+    const v = VALVES_DB.find(item => item.id === STATE.locatedValveId);
+    if (!v) return;
+
+    beaconLayer.innerHTML = `
+      <g transform="translate(${v.x}, ${v.y})">
+        <circle cx="0" cy="0" r="14" class="beacon-ring" />
+        <circle cx="0" cy="0" r="24" class="beacon-ring" style="animation-delay: 0.4s;" />
+        <!-- Pointer Callout Arrow above valve -->
+        <g transform="translate(0, -34)">
+          <rect x="-48" y="-22" width="96" height="20" rx="4" fill="#ffb300" stroke="#000" stroke-width="1.5" />
+          <polygon points="-6,-2 6,-2 0,6" fill="#ffb300" />
+          <text x="0" y="-11" fill="#000" font-size="11" font-weight="900" text-anchor="middle">📍 ${v.id} (${v.open ? 'MỞ' : 'ĐÓNG'})</text>
+        </g>
+      </g>
+    `;
+  }
+
+  function clearBeacon() {
+    STATE.locatedValveId = null;
+    renderPidValves();
+    renderValveChips();
+  }
+
+  // ==================== 7. VALVE FINDER CHIPS & INSPECTOR ====================
+  function renderValveChips() {
+    const container = document.getElementById('valveChipsContainer');
+    const q = (document.getElementById('valveSearchInput')?.value || '').trim().toUpperCase();
+    if (!container) return;
+
+    container.innerHTML = '';
+    VALVES_DB.filter(v => !q || v.id.toUpperCase().includes(q) || v.desc.toUpperCase().includes(q) || v.area.toUpperCase().includes(q))
+      .forEach(v => {
+        const chip = document.createElement('div');
+        chip.className = `valve-chip ${v.open ? 'open' : 'closed'} ${STATE.locatedValveId === v.id ? 'selected' : ''}`;
+        chip.innerHTML = `
+          <span>${v.id}</span>
+          <span style="font-size:9px; color:${v.open ? 'var(--green)' : 'var(--red)'};">${v.open ? 'OPN' : 'CLS'}</span>
+        `;
+        chip.onclick = () => selectAndLocateValve(v.id, false);
+        container.appendChild(chip);
+      });
+  }
+
+  function selectAndLocateValve(valveId, toggleOnPidClick) {
+    const v = VALVES_DB.find(item => item.id === valveId);
+    if (!v) return;
+
+    if (toggleOnPidClick && STATE.locatedValveId === valveId) {
+      v.open = !v.open;
+    }
+    STATE.locatedValveId = valveId;
+
+    // Update Inspector Box
+    document.getElementById('inspTag').textContent = `VAN ${v.id} [${v.area}]`;
+    const stEl = document.getElementById('inspState');
+    stEl.textContent = v.open ? 'OPEN (ĐANG MỞ)' : 'CLOSED (ĐANG ĐÓNG)';
+    stEl.style.color = v.open ? 'var(--green)' : 'var(--red)';
+    document.getElementById('inspDesc').textContent = v.desc;
+    document.getElementById('selectedNodeBanner').textContent = `📍 Đang định vị van ${v.id}: ${v.desc}`;
+
+    document.getElementById('inspActions').innerHTML = `
+      <div style="display:flex; gap:6px; margin-top:6px;">
+        <button class="btn ${v.open ? 'btn-danger' : 'btn-success'}" style="width:100%; justify-content:center;" onclick="toggleValveById('${v.id}')">
+          ${v.open ? '🔒 ĐÓNG VAN (CLOSE)' : '🔓 MỞ VAN (OPEN)'} ${v.id}
+        </button>
+      </div>
+    `;
+
+    renderPidValves();
+    renderValveChips();
+  }
+
+  function toggleValveById(valveId) {
+    const v = VALVES_DB.find(item => item.id === valveId);
+    if (!v) return;
+    v.open = !v.open;
+    selectAndLocateValve(valveId, false);
+  }
+
+  function setValveState(valveId, isOpen) {
+    const v = VALVES_DB.find(item => item.id === valveId);
+    if (v) v.open = isOpen;
+  }
+
+  function isValveOpen(valveId) {
+    const v = VALVES_DB.find(item => item.id === valveId);
+    return v ? v.open : false;
+  }
+
+  // ==================== 8. PUMPS & EQUIPMENT INTERACTION ====================
+  function togglePump(pumpId) {
+    STATE.pumps[pumpId] = !STATE.pumps[pumpId];
+    // Interlock I-705 check when P-702A/B stops
+    if (pumpId === 'P-702A/B' && !STATE.pumps['P-702A/B']) {
+      STATE.esdTripped = true;
+      setValveState('FV-712', false);
+    }
+    updatePumpsVisual();
+    renderPidValves();
+  }
+
+  function updatePumpsVisual() {
+    Object.keys(STATE.pumps).forEach(pId => {
+      const running = STATE.pumps[pId];
+      const circ = document.getElementById(`pcirc-${pId}`);
+      const tri = document.getElementById(`ptri-${pId}`);
+      if (circ && tri) {
+        const col = running ? '#00e676' : '#ff1744';
+        circ.setAttribute('stroke', col);
+        tri.setAttribute('fill', col);
+      }
+    });
+
+    const esdEl = document.getElementById('esdStatusText');
+    if (esdEl) {
+      if (STATE.esdTripped) {
+        esdEl.textContent = 'I-705 ACTIVATED (FV-712 CLOSED)';
+        esdEl.style.color = 'var(--amber)';
+      } else {
+        esdEl.textContent = 'NORMAL (RESET)';
+        esdEl.style.color = 'var(--green)';
+      }
+    }
+  }
+
+  function inspectEquipment(eqId) {
+    const eqInfo = {
+      'T-703': 'Tháp Hexane Stripper T-703: Nhiệt độ đáy 120°C, áp suất đỉnh 3.0 kg/cm²G. Tách thu hồi hơi Hexane lên đỉnh qua PIC-721 (0.2 kg/cm²G) tới E-704 và kiểm soát nồng độ LP đáy 5-10 wt% qua FIC-722.',
+      'D-701': 'Bình chứa dịch cái D-701 (ML Surge Drum): Gia nhiệt bằng cuộn hơi LS giữ ~60°C (TI-712), cấp dịch xuống bơm P-702A/B đẩy vào T-703.',
+      'E-703A/B': 'Crude Hexane Reboiler E-703A/B: Cấp hơi MS vào phía vỏ (Shell side) qua van FIC-721. Dịch đáy T-703 tuần hoàn cưỡng bức qua phía ống nhờ bơm P-705A/B.',
+      'E-704': 'Hexane Overhead Condenser E-704 (Kiểu BJT TEMA): Ngưng tụ và làm mát hơi Hexane từ T-703 ở áp suất 0.2 kg/cm²G chảy về bình D-702.',
+      'D-702': 'Overhead Receiver D-702: Duy trì ở 0.2 kg/cm²G bởi van Split-Range PIC-731 (PV-731-1/2), mức lỏng kiểm soát bởi LIC-732.',
+      'D-711': '1st Flash Drum D-711: Vận hành ở ~160°C (TIC-727) để tách hơi Hexane khỏi dòng Low Polymer từ đáy T-703 (FIC-722 = 7 t/h).',
+      'E-711': 'LP Heater E-711: Gia nhiệt dòng Low Polymer lên 200°C bằng hơi áp cao HS (TIC-724) trước khi vào bình Flash D-711.',
+      'E-712': 'Thiết bị trao đổi nhiệt E-712 & van TV-728: Kiểm soát nhiệt độ TIC-728 chống nghẹt Low Polymer trong phía ống (Tube side).',
+      'D-752': 'Closed Drain Drum D-752: Bình thu gom Hexane xả kín từ T-703 (qua ống mềm V11-V25 & V26-V27) khi dừng máy bảo trì. Giám sát áp suất qua PG-7502.',
+      'TK-703': 'Bể chứa Hexane TK-703 (LI-714B > 50%): Cấp Hexane qua bơm P-703 và van FIC-713 vào D-701 để khởi động hoặc rửa hệ thống.',
+      'P-708A/B': 'Cụm bơm Hexane sạch (HHX Flushing) P-708A/B: Cấp dòng rửa Mechanical Seal cho P-702A/B (462 l/h), P-705A/B (960 l/h), P-711A/B (300 l/h) và Reflux FV-736.'
+    };
+    document.getElementById('inspTag').textContent = `THIẾT BỊ: ${eqId}`;
+    document.getElementById('inspState').textContent = 'ONLINE';
+    document.getElementById('inspState').style.color = 'var(--cyan)';
+    document.getElementById('inspDesc').textContent = eqInfo[eqId] || eqId;
+    document.getElementById('inspActions').innerHTML = '';
+  }
+
+  // ==================== 9. UPDATE PIPE FLOW ANIMATIONS ====================
+  function setFlowClass(id, active) {
+    const el = document.getElementById(id);
+    if (el) {
+      if (active) el.classList.add('flowing');
+      else el.classList.remove('flowing');
+    }
+  }
+
+  function updatePipeFlows() {
+    const p703Flow = STATE.pumps['P-703'] && isValveOpen('V1');
+    setFlowClass('flow-tk703-p703', p703Flow);
+    setFlowClass('flow-p703-d701', p703Flow && isValveOpen('V4') && isValveOpen('FV-713') && isValveOpen('HV-713'));
+    setFlowClass('flow-p703-min', p703Flow && isValveOpen('V3'));
+    setFlowClass('flow-p703-d702', p703Flow && isValveOpen('V5'));
+
+    const hhxWash = isValveOpen('V6') || isValveOpen('V7') || isValveOpen('V26');
+    setFlowClass('flow-hhx-p702', hhxWash);
+
+    const p702Suction = (isValveOpen('V8') && isValveOpen('V14')) || hhxWash;
+    const p702Flow = (STATE.pumps['P-702A/B'] && p702Suction) || (hhxWash && isValveOpen('V16'));
+    setFlowClass('flow-d701-p702', p702Flow);
+    setFlowClass('flow-p702-min', STATE.pumps['P-702A/B'] && isValveOpen('V9'));
+    setFlowClass('flow-p702-t703', p702Flow && isValveOpen('V16') && (isValveOpen('FV-712') || isValveOpen('V10')));
+    setFlowClass('flow-v10-bypass', p702Flow && isValveOpen('V10'));
+
+    setFlowClass('flow-reflux-t703', isValveOpen('FV-736'));
+    setFlowClass('flow-t703-ovhd', isValveOpen('PV-721') && STATE.processVars.t703Press > 0.4);
+    setFlowClass('flow-d702-bot', STATE.pumps['P-706A/B'] && isValveOpen('LV-732'));
+
+    const p705Flow = STATE.pumps['P-705A/B'] && isValveOpen('V21') && isValveOpen('V22');
+    setFlowClass('flow-t703-p705', p705Flow);
+    setFlowClass('flow-p705-e703', p705Flow);
+    setFlowClass('flow-stm-e703', isValveOpen('FV-721'));
+
+    const p711Flow = STATE.pumps['P-711A/B'] && isValveOpen('PV-723') && isValveOpen('FV-722');
+    setFlowClass('flow-t703-p711', p711Flow);
+    setFlowClass('flow-p711-d711', p711Flow);
+    setFlowClass('flow-stm-e711', isValveOpen('TV-724'));
+
+    setFlowClass('flow-d711-ovhd', p711Flow);
+    setFlowClass('flow-d711-p712', STATE.pumps['P-712'] && isValveOpen('TV-728'));
+
+    const drainFlow = (isValveOpen('V11') && isValveOpen('V25')) || (isValveOpen('V26') && isValveOpen('V27'));
+    setFlowClass('flow-drain-d752', drainFlow && isValveOpen('V28') && isValveOpen('V29') && isValveOpen('V30'));
+  }
+
+  // ==================== 10. DCS FACEPLATES & REAL-TIME SIMULATION ENGINE ====================
+  function renderDcsFaceplates() {
+    const container = document.getElementById('dcsFaceplatesContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    STATE.controllers.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = 'dcs-card';
+      card.innerHTML = `
+        <div class="dcs-top">
+          <span class="dcs-tag" style="cursor:pointer;" onclick="selectAndLocateValve('${c.valveId}', false)">${c.tag} (${c.valveId})</span>
+          <span class="dcs-mode ${c.mode === 'AUTO' ? 'auto' : 'man'}" onclick="toggleControllerMode(${idx})">${c.mode}</span>
+        </div>
+        <div class="dcs-desc">${c.desc}</div>
+        <div class="dcs-vals">
+          <div><span style="color:#94a3b8;font-size:9.5px;">SV</span><br><strong style="color:var(--cyan)" id="dcs-sv-${idx}">${c.sv.toFixed(2)}</strong></div>
+          <div><span style="color:#94a3b8;font-size:9.5px;">PV (${c.unit})</span><br><strong style="color:var(--green)" id="dcs-pv-${idx}">${c.pv.toFixed(2)}</strong></div>
+          <div><span style="color:#94a3b8;font-size:9.5px;">MV (%)</span><br><strong style="color:var(--amber)" id="dcs-mv-${idx}">${c.mv.toFixed(0)}%</strong></div>
+        </div>
+        <div class="dcs-slider-row">
+          <span>${c.mode === 'AUTO' ? 'SV:' : 'MV:'}</span>
+          <input type="range" min="${c.mode === 'AUTO' ? c.min : 0}" max="${c.mode === 'AUTO' ? c.max : 100}" step="0.1"
+            value="${c.mode === 'AUTO' ? c.sv : c.mv}"
+            oninput="adjustControllerSlider(${idx}, this.value)">
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function toggleControllerMode(idx) {
+    const c = STATE.controllers[idx];
+    c.mode = c.mode === 'AUTO' ? 'MAN' : 'AUTO';
+    renderDcsFaceplates();
+  }
+
+  function adjustControllerSlider(idx, val) {
+    const c = STATE.controllers[idx];
+    const num = parseFloat(val);
+    if (c.mode === 'AUTO') {
+      c.sv = num;
+    } else {
+      c.mv = num;
+      setValveState(c.valveId, num > 1);
+      // Cascade note between FV-712 and FV-736
+      if (c.tag === 'FIC-712' && num === 0) {
+        const fic736 = STATE.controllers.find(x => x.tag === 'FIC-736');
+        if (fic736 && fic736.mode === 'AUTO') {
+          fic736.mv = 0;
+          setValveState('FV-736', false);
+        }
+      }
+    }
+    renderPidValves();
+  }
+
+  function setController(tag, mode, sv, mv) {
+    const c = STATE.controllers.find(x => x.tag === tag);
+    if (c) {
+      c.mode = mode;
+      c.sv = sv;
+      c.mv = mv;
+    }
+    renderDcsFaceplates();
+  }
+
+  // Real-time Dynamic Physics Loop (every 600ms)
+  setInterval(() => {
+    STATE.controllers.forEach((c, idx) => {
+      const vOpen = isValveOpen(c.valveId);
+      if (!vOpen) {
+        c.mv = 0;
+      }
+      if (c.mode === 'AUTO' && vOpen) {
+        const err = c.sv - c.pv;
+        c.pv += err * 0.25 + (Math.random() - 0.5) * 0.02 * (c.max - c.min) * 0.05;
+        c.mv = Math.max(0, Math.min(100, ((c.pv - c.min) / (c.max - c.min || 1)) * 100));
+      } else {
+        const targetPv = c.min + (c.mv / 100) * (c.max - c.min);
+        c.pv += (targetPv - c.pv) * 0.2;
+      }
+
+      const svEl = document.getElementById(`dcs-sv-${idx}`);
+      const pvEl = document.getElementById(`dcs-pv-${idx}`);
+      const mvEl = document.getElementById(`dcs-mv-${idx}`);
+      if (svEl) svEl.textContent = c.sv.toFixed(2);
+      if (pvEl) pvEl.textContent = c.pv.toFixed(2);
+      if (mvEl) mvEl.textContent = `${c.mv.toFixed(0)}%`;
+    });
+
+    // Coupled Process Variables Update
+    const fic721 = STATE.controllers.find(x => x.tag === 'FIC-721');
+    const pic721 = STATE.controllers.find(x => x.tag === 'PIC-721');
+    const fic722 = STATE.controllers.find(x => x.tag === 'FIC-722');
+    const pic731 = STATE.controllers.find(x => x.tag === 'PIC-731');
+    const lic721 = STATE.controllers.find(x => x.tag === 'LIC-721');
+
+    if (fic721) {
+      const targetTemp = 35 + (fic721.pv / 12.5) * 85;
+      STATE.processVars.t703Temp += (targetTemp - STATE.processVars.t703Temp) * 0.15;
+    }
+    if (pic721) {
+      STATE.processVars.t703Press = pic721.pv;
+    }
+    if (pic731) {
+      STATE.processVars.d702Press = pic731.pv;
+    }
+    if (fic722 && fic722.pv > 0.5) {
+      const targetWt = Math.max(3.5, Math.min(14.0, 7.5 * (7.0 / fic722.pv)));
+      STATE.processVars.lpConcWt += (targetWt - STATE.processVars.lpConcWt) * 0.2;
+    }
+
+    // Update SVG Live Text Readouts
+    const setTxt = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+    setTxt('txt-PIC721', `${STATE.processVars.t703Press.toFixed(2)} kg/cm²G`);
+    setTxt('txt-TI723', `Bot: ${STATE.processVars.t703Temp.toFixed(1)}°C`);
+    setTxt('txt-LPwt', `LP: ${STATE.processVars.lpConcWt.toFixed(1)} wt%`);
+    setTxt('txt-LIC721', `LIC-721: ${(lic721 ? lic721.pv : 50).toFixed(0)}%`);
+    setTxt('txt-PIC731', `${STATE.processVars.d702Press.toFixed(2)} kg/cm²G`);
+    setTxt('txt-LI711', `LI-711: ${STATE.processVars.d701Level.toFixed(0)}%`);
+    setTxt('txt-TI712', `TI-712: ${STATE.processVars.d701Temp.toFixed(0)}°C`);
+    setTxt('txt-LIC722', `LIC-722: ${STATE.processVars.d711Level.toFixed(0)}%`);
+  }, 600);
+
+  // ==================== 11. SOP WORKFLOW RENDERING ====================
+  function switchSopMode(mode) {
+    STATE.sopType = mode;
+    STATE.currentStepIdx = 0;
+    document.getElementById('btnSopStart').classList.toggle('active', mode === 'startup');
+    document.getElementById('btnSopStop').classList.toggle('active', mode === 'shutdown');
+    document.getElementById('sopTitleHeader').textContent = mode === 'startup'
+      ? 'SOP START-UP LOOP T-703 (02-001)'
+      : 'SOP SHUTDOWN LOOP T-703 (06-001)';
+    renderSopSteps();
+  }
+
+  function renderSopSteps() {
+    const list = document.getElementById('sopStepsList');
+    if (!list) return;
+    list.innerHTML = '';
+
+    const steps = SOP_DATA[STATE.sopType];
+    steps.forEach((s, idx) => {
+      const div = document.createElement('div');
+      div.className = `sop-step ${idx === STATE.currentStepIdx ? 'active' : ''} ${idx < STATE.currentStepIdx ? 'done' : ''}`;
+      div.onclick = () => {
+        STATE.currentStepIdx = idx;
+        if (s.valves && s.valves.length > 0) {
+          selectAndLocateValve(s.valves[0], false);
+        }
+        renderSopSteps();
+      };
+
+      const valveBadges = (s.valves || []).map(vId =>
+        `<span style="background:#1e293b; border:1px solid var(--cyan); padding:1px 5px; border-radius:3px; font-size:10px; color:var(--cyan); margin-right:4px;" onclick="event.stopPropagation(); selectAndLocateValve('${vId}', false)">📍 ${vId}</span>`
+      ).join('');
+
+      div.innerHTML = `
+        <div class="sop-step-head">
+          <span>${idx < STATE.currentStepIdx ? '✅ ' : ''}${s.step}</span>
+          <span class="sop-role">${s.role}</span>
+        </div>
+        <div class="sop-en">${s.en}</div>
+        <div class="sop-vi">${s.vi}</div>
+        ${s.note ? `<div class="sop-note">⚠️ <strong>Noted:</strong> ${s.note}</div>` : ''}
+        <div style="margin-top:5px;">${valveBadges}</div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  function executeCurrentSopStep() {
+    const steps = SOP_DATA[STATE.sopType];
+    const current = steps[STATE.currentStepIdx];
+    if (!current) return;
+
+    if (current.action) current.action();
+    if (current.valves && current.valves.length > 0) {
+      selectAndLocateValve(current.valves[0], false);
+    }
+    updatePumpsVisual();
+    renderPidValves();
+    renderValveChips();
+
+    if (STATE.currentStepIdx < steps.length - 1) {
+      STATE.currentStepIdx++;
+    }
+    renderSopSteps();
+  }
+
+  // ==================== 12. TROUBLESHOOTING & FAULT INJECTION ====================
+  function renderFaultCards() {
+    const container = document.getElementById('faultCardsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    FAULTS_DB.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'info-card fault-card';
+      const remediesHtml = f.remedy.map(r => `<li>${r}</li>`).join('');
+      card.innerHTML = `
+        <h3>${f.title}</h3>
+        <p><strong style="color:var(--amber);">Tag / Khu vực:</strong> ${f.tag}</p>
+        <p><strong style="color:#f87171;">Nguyên nhân (Cause):</strong> ${f.cause}</p>
+        <p><strong style="color:#fb923c;">Hậu quả (Hazard / Consequence):</strong> ${f.consequence}</p>
+        <p><strong style="color:var(--green);">Biện pháp phòng ngừa & Cách khắc phục (Countermeasure & Mitigation):</strong></p>
+        <ul style="padding-left:18px; margin-bottom:10px;">${remediesHtml}</ul>
+        <div style="display:flex; gap:8px;">
+          <button class="btn btn-danger" onclick="triggerFaultSimulation('${f.id}')">⚡ Kích hoạt Mô phỏng Sự cố này</button>
+          <button class="btn" onclick="locateValveFromFault('${f.focusValve}')">🔍 Định vị van ${f.focusValve} trên P&ID</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function locateValveFromFault(valveId) {
+    switchMainTab('tab-mimic', document.querySelectorAll('.pv-tab')[0]);
+    selectAndLocateValve(valveId, false);
+  }
+
+  function triggerFaultSimulation(faultId) {
+    const f = FAULTS_DB.find(x => x.id === faultId);
+    if (!f) return;
+
+    if (!STATE.activeFaults.includes(f.title)) {
+      STATE.activeFaults.push(f.title);
+    }
+
+    if (faultId === 'FAULT-1') {
+      setValveState('TV-728', false);
+      STATE.processVars.d711Level = 88.0;
+    } else if (faultId === 'FAULT-2') {
+      setValveState('PV-723', false);
+      setValveState('FV-722', false);
+    } else if (faultId === 'FAULT-3') {
+      setController('FIC-721', 'MAN', 22.0, 95);
+      STATE.processVars.d702Press = 1.45;
+    } else if (faultId === 'FAULT-4') {
+      setValveState('FV-736', false);
+    } else if (faultId === 'FAULT-5') {
+      STATE.pumps['P-702A/B'] = false;
+      STATE.esdTripped = true;
+      setValveState('FV-712', false);
+    } else if (faultId === 'FAULT-6') {
+      STATE.processVars.d752Level = 92.0;
+    }
+
+    document.getElementById('sysDot').className = 'pv-dot alarm';
+    document.getElementById('sysStateText').textContent = `ALARM: ${f.tag} UPSET`;
+
+    switchMainTab('tab-mimic', document.querySelectorAll('.pv-tab')[0]);
+    selectAndLocateValve(f.focusValve, false);
+    renderAlarms();
+    updatePumpsVisual();
+    renderPidValves();
+  }
+
+  function renderAlarms() {
+    const box = document.getElementById('alarmContainer');
+    if (!box) return;
+    box.innerHTML = STATE.activeFaults.map(title => `
+      <div class="alarm-banner">
+        <span>🚨 ${title}</span>
+        <button class="btn btn-success" style="padding:2px 6px; font-size:10px;" onclick="clearAllFaults()">Khắc phục (Reset)</button>
+      </div>
+    `).join('');
+  }
+
+  function clearAllFaults() {
+    STATE.activeFaults = [];
+    renderAlarms();
+    loadNormalRunningState();
+  }
+
+  // ==================== 13. SYSTEM RESET (COLD) & NORMAL RUNNING PRESETS ====================
+  function loadNormalRunningState() {
+    STATE.mode = 'NORMAL';
+    STATE.esdTripped = false;
+    STATE.activeFaults = [];
+    renderAlarms();
+
+    document.getElementById('sysDot').className = 'pv-dot';
+    document.getElementById('sysStateText').textContent = 'NORMAL OPERATION (T-703 @ 120°C, 3.0 kg/cm²G, LP 7.5 wt%)';
+
+    Object.keys(STATE.pumps).forEach(k => STATE.pumps[k] = true);
+
+    const openList = ['V1', 'V2', 'V3', 'V4', 'FV-713', 'HV-713', 'V8', 'V9', 'V14', 'V16', 'V13a/b', 'FV-712', 'FV-736', 'PV-721', 'PV-731', 'LV-732', 'FV-721', 'LV-725A', 'V21', 'V22', 'V23', 'PV-723', 'TV-724', 'LV-727', 'FV-722', 'TV-727', 'TV-728'];
+    VALVES_DB.forEach(v => {
+      v.open = openList.includes(v.id);
+    });
+
+    setController('PIC-721', 'AUTO', 3.00, 54);
+    setController('FIC-721', 'AUTO', 12.50, 62);
+    setController('LIC-721', 'AUTO', 52.00, 50);
+    setController('FIC-712', 'AUTO', 30.00, 58);
+    setController('FIC-736', 'AUTO', 4.50, 45);
+    setController('FIC-722', 'AUTO', 7.00, 48);
+    setController('PIC-731', 'AUTO', 0.20, 50);
+    setController('TIC-724', 'AUTO', 200.0, 55);
+    setController('TIC-727', 'AUTO', 160.0, 42);
+    setController('FIC-713', 'AUTO', 10.0, 35);
+
+    STATE.processVars = {
+      t703Temp: 120.0,
+      t703Press: 3.00,
+      d702Press: 0.20,
+      lpConcWt: 7.5,
+      tk703Level: 65.0,
+      d701Level: 50.0,
+      d701Temp: 60.0,
+      d711Level: 35.0,
+      d752Level: 12.0
+    };
+
+    updatePumpsVisual();
+    renderPidValves();
+    renderValveChips();
+    renderDcsFaceplates();
+  }
+
+  function resetSystemToInitial() {
+    STATE.mode = 'COLD';
+    STATE.currentStepIdx = 0;
+    STATE.esdTripped = false;
+    STATE.activeFaults = [];
+    STATE.locatedValveId = null;
+    renderAlarms();
+
+    document.getElementById('sysDot').className = 'pv-dot warn';
+    document.getElementById('sysStateText').textContent = 'STANDBY / COLD STATE — SẴN SÀNG CHẠY START-UP TỪ ĐẦU';
+
+    Object.keys(STATE.pumps).forEach(k => STATE.pumps[k] = false);
+    VALVES_DB.forEach(v => v.open = false);
+
+    STATE.controllers.forEach(c => {
+      c.mode = 'MAN';
+      c.mv = 0;
+      c.pv = c.min;
+    });
+
+    STATE.processVars = {
+      t703Temp: 32.0,
+      t703Press: 0.05,
+      d702Press: 0.02,
+      lpConcWt: 0.0,
+      tk703Level: 68.0,
+      d701Level: 5.0,
+      d701Temp: 32.0,
+      d711Level: 5.0,
+      d752Level: 5.0
+    };
+
+    switchSopMode('startup');
+    updatePumpsVisual();
+    renderPidValves();
+    renderValveChips();
+    renderDcsFaceplates();
+  }
+
+  // ==================== 14. TABS & STANDALONE EXPORT FOR GITHUB/VERCEL ====================
+  function switchMainTab(tabId, btnEl) {
+    document.querySelectorAll('.tab-view').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.pv-tab').forEach(el => el.classList.remove('active'));
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add('active');
+    if (btnEl) btnEl.classList.add('active');
+  }
+
+  function exportStandaloneHTML() {
+    const fullHtml = `<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LSP HDPE Section 700 - Loop T-703 PI Vision Real-Time Simulator</title>
+</head>
+<body>
+${document.querySelector('.pivision-app').outerHTML}
+</body>
+</html>`;
+    const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'index.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // Debounced Resize Handler
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderPidValves();
+    }, 150);
+  });
+
+  // INITIALIZE APPLICATION
+  renderValveChips();
+  renderSopSteps();
+  renderDcsFaceplates();
+  renderFaultCards();
+  loadNormalRunningState();
+</script>
